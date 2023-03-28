@@ -49,9 +49,9 @@
                      ##### How to use this driver #####
   ==============================================================================
  [..]
-   (#) Enable the GPIO APB2 clock using the following function : __HAL_RCC_GPIOx_CLK_ENABLE().
+   (#) Enable the GPIO APB2 clock using the following function : __HAL_RCC_GPIOx_CLK_ENABLE().  调用这个函数使能gpio时钟，x是ABCD组 
 
-   (#) Configure the GPIO pin(s) using HAL_GPIO_Init().
+   (#) Configure the GPIO pin(s) using HAL_GPIO_Init().      //使用这个函数配置引脚 
        (++) Configure the IO mode using "Mode" member from GPIO_InitTypeDef structure
        (++) Activate Pull-up, Pull-down resistor using "Pull" member from GPIO_InitTypeDef
             structure.
@@ -64,12 +64,12 @@
             the corresponding trigger event (rising or falling or both).
 
    (#) In case of external interrupt/event mode selection, configure NVIC IRQ priority
-       mapped to the EXTI line using HAL_NVIC_SetPriority() and enable it using
-       HAL_NVIC_EnableIRQ().
+       mapped to the EXTI line using HAL_NVIC_SetPriority() and enable it using   配置中断优先级
+       HAL_NVIC_EnableIRQ(). 中断使能
 
-   (#) To get the level of a pin configured in input mode use HAL_GPIO_ReadPin().
+   (#) To get the level of a pin configured in input mode use HAL_GPIO_ReadPin(). 读输入模式引脚电平
 
-   (#) To set/reset the level of a pin configured in output mode use
+   (#) To set/reset the level of a pin configured in output mode use  设置重置输出模式引脚电平
        HAL_GPIO_WritePin()/HAL_GPIO_TogglePin().
 
    (#) To lock pin configuration until next reset use HAL_GPIO_LockPin().

@@ -558,11 +558,11 @@ ARM Macro Assembler    Page 9
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=day1\startup_stm32f103xe.d -oday1\startup_stm32f103xe.o -I"D:\qian
- ru shi\stm32\day1\MDK-ARM\RTE" -I"D:\GongZuo rj\keil5\ARM\PACK\ARM\CMSIS\4.2.0
-\CMSIS\Include" -I"D:\GongZuo rj\keil5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device
-\Include" --predefine="__UVISION_VERSION SETA 514" --predefine="_RTE_ SETA 1" -
--predefine="STM32F10X_HD SETA 1" --list=startup_stm32f103xe.lst startup_stm32f1
-03xe.s
+ ru shi\stm32\STM32\day1\MDK-ARM\RTE" -I"D:\GongZuo rj\keil5\ARM\PACK\ARM\CMSIS
+\4.2.0\CMSIS\Include" -I"D:\GongZuo rj\keil5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\
+Device\Include" --predefine="__UVISION_VERSION SETA 518" --predefine="_RTE_ SET
+A 1" --predefine="STM32F10X_HD SETA 1" --list=startup_stm32f103xe.lst startup_s
+tm32f103xe.s
 
 
 
