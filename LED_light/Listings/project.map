@@ -85,12 +85,12 @@ Section Cross References
     stm32f10x_usart.o(i.USART_DeInit) refers to stm32f10x_rcc.o(i.RCC_APB1PeriphResetCmd) for RCC_APB1PeriphResetCmd
     stm32f10x_usart.o(i.USART_Init) refers to stm32f10x_rcc.o(i.RCC_GetClocksFreq) for RCC_GetClocksFreq
     stm32f10x_wwdg.o(i.WWDG_DeInit) refers to stm32f10x_rcc.o(i.RCC_APB1PeriphResetCmd) for RCC_APB1PeriphResetCmd
+    delay.o(i.Delay_ms) refers to delay.o(i.Delay_us) for Delay_us
+    delay.o(i.Delay_s) refers to delay.o(i.Delay_ms) for Delay_ms
     main.o(i.main) refers to stm32f10x_rcc.o(i.RCC_APB2PeriphClockCmd) for RCC_APB2PeriphClockCmd
     main.o(i.main) refers to stm32f10x_gpio.o(i.GPIO_Init) for GPIO_Init
     main.o(i.main) refers to stm32f10x_gpio.o(i.GPIO_Write) for GPIO_Write
     main.o(i.main) refers to delay.o(i.Delay_ms) for Delay_ms
-    delay.o(i.Delay_ms) refers to delay.o(i.Delay_us) for Delay_us
-    delay.o(i.Delay_s) refers to delay.o(i.Delay_ms) for Delay_ms
     __main.o(!!!main) refers to __rtentry.o(.ARM.Collect$$rtentry$$00000000) for __rt_entry
     __rtentry.o(.ARM.Collect$$rtentry$$00000000) refers (Special) to __rtentry2.o(.ARM.Collect$$rtentry$$0000000A) for __rt_entry_li
     __rtentry.o(.ARM.Collect$$rtentry$$00000000) refers (Special) to __rtentry2.o(.ARM.Collect$$rtentry$$0000000D) for __rt_entry_main
@@ -692,8 +692,8 @@ Image Symbol Table
     ../clib/angel/rt.s                       0x00000000   Number         0  rt_raise.o ABSOLUTE
     ../clib/angel/scatter.s                  0x00000000   Number         0  __scatter.o ABSOLUTE
     ../clib/angel/startup.s                  0x00000000   Number         0  __main.o ABSOLUTE
-    ../clib/angel/sys.s                      0x00000000   Number         0  use_no_semi.o ABSOLUTE
     ../clib/angel/sys.s                      0x00000000   Number         0  indicate_semi.o ABSOLUTE
+    ../clib/angel/sys.s                      0x00000000   Number         0  use_no_semi.o ABSOLUTE
     ../clib/angel/sys.s                      0x00000000   Number         0  libspace.o ABSOLUTE
     ../clib/angel/sys.s                      0x00000000   Number         0  sys_stackheap_outer.o ABSOLUTE
     ../clib/angel/sysapp.c                   0x00000000   Number         0  sys_command.o ABSOLUTE
@@ -1064,26 +1064,26 @@ Memory Map of the image
     0x08000210   0x0000000c   Code   RO         3391    .text               c_w.l(sys_exit.o)
     0x0800021c   0x00000002   Code   RO         3402    .text               c_w.l(use_no_semi.o)
     0x0800021e   0x00000000   Code   RO         3404    .text               c_w.l(indicate_semi.o)
-    0x0800021e   0x00000004   Code   RO         3211    i.BusFault_Handler  stm32f10x_it.o
-    0x08000222   0x00000002   Code   RO         3212    i.DebugMon_Handler  stm32f10x_it.o
-    0x08000224   0x00000018   Code   RO         3274    i.Delay_ms          delay.o
-    0x0800023c   0x0000002e   Code   RO         3276    i.Delay_us          delay.o
+    0x0800021e   0x00000004   Code   RO         3235    i.BusFault_Handler  stm32f10x_it.o
+    0x08000222   0x00000002   Code   RO         3236    i.DebugMon_Handler  stm32f10x_it.o
+    0x08000224   0x00000018   Code   RO         3196    i.Delay_ms          delay.o
+    0x0800023c   0x0000002e   Code   RO         3198    i.Delay_us          delay.o
     0x0800026a   0x00000116   Code   RO         1347    i.GPIO_Init         stm32f10x_gpio.o
     0x08000380   0x00000004   Code   RO         1357    i.GPIO_Write        stm32f10x_gpio.o
-    0x08000384   0x00000004   Code   RO         3213    i.HardFault_Handler  stm32f10x_it.o
-    0x08000388   0x00000004   Code   RO         3214    i.MemManage_Handler  stm32f10x_it.o
-    0x0800038c   0x00000002   Code   RO         3215    i.NMI_Handler       stm32f10x_it.o
-    0x0800038e   0x00000002   Code   RO         3216    i.PendSV_Handler    stm32f10x_it.o
+    0x08000384   0x00000004   Code   RO         3237    i.HardFault_Handler  stm32f10x_it.o
+    0x08000388   0x00000004   Code   RO         3238    i.MemManage_Handler  stm32f10x_it.o
+    0x0800038c   0x00000002   Code   RO         3239    i.NMI_Handler       stm32f10x_it.o
+    0x0800038e   0x00000002   Code   RO         3240    i.PendSV_Handler    stm32f10x_it.o
     0x08000390   0x00000020   Code   RO         1777    i.RCC_APB2PeriphClockCmd  stm32f10x_rcc.o
-    0x080003b0   0x00000002   Code   RO         3217    i.SVC_Handler       stm32f10x_it.o
+    0x080003b0   0x00000002   Code   RO         3241    i.SVC_Handler       stm32f10x_it.o
     0x080003b2   0x00000008   Code   RO           24    i.SetSysClock       system_stm32f10x.o
     0x080003ba   0x00000002   PAD
     0x080003bc   0x000000e0   Code   RO           25    i.SetSysClockTo72   system_stm32f10x.o
-    0x0800049c   0x00000002   Code   RO         3218    i.SysTick_Handler   stm32f10x_it.o
+    0x0800049c   0x00000002   Code   RO         3242    i.SysTick_Handler   stm32f10x_it.o
     0x0800049e   0x00000002   PAD
     0x080004a0   0x00000060   Code   RO           27    i.SystemInit        system_stm32f10x.o
-    0x08000500   0x00000004   Code   RO         3219    i.UsageFault_Handler  stm32f10x_it.o
-    0x08000504   0x000000c0   Code   RO         3196    i.main              main.o
+    0x08000500   0x00000004   Code   RO         3243    i.UsageFault_Handler  stm32f10x_it.o
+    0x08000504   0x000000c0   Code   RO         3220    i.main              main.o
     0x080005c4   0x00000010   Data   RO         3456    Region$$Table       anon$$obj.o
 
 
