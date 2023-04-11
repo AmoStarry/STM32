@@ -1,9 +1,11 @@
 #include "stm32f10x.h"
 #include "Delay.h"
-#include "LED.h" 
+#include "LED.h"
+#include "Key.h"
 int main()
 {
 	LED_Init();
+	Key_Init();
 	while(1)
 	{
 		LED1_ON();
