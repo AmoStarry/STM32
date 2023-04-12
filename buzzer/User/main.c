@@ -1,17 +1,25 @@
-#include "stm32f10x.h" 
+#include "stm32f10x.h"
+#include "Delay.h"
+#include "Buzzer.h"
+#include "LightSendor.h"
+
+
+uint8_t KeyNum;
 int main()
-{
-	GPIO_InitTypeDef  GPIO_Initstructure;
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
-	GPIO_Initstructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_Initstructure.GPIO_Pin = GPIO_Pin_8;
-	GPIO_Initstructure.GPIO_Speed = GPIO_Speed_50MHz;
-	
-	GPIO_Init(GPIOA,&GPIO_Initstructure);
-	//GPIO_SetBits(GPIOA,GPIO_Pin_8);
-	//GPIO_ResetBits(GPIOA,GPIO_Pin_8);
+{	
+	Buzzer_Init();
+	LightSensor_Init();
 	while(1)
 	{
+		if(LightSensor_Get() == 1)
+		{
+			Buzzer_ON();
+		}
+		else
+        {
+			Buzzer_OFF();
+		}
+		
 		
 	}
 }

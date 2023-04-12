@@ -670,6 +670,16 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\LED.h</FilePath>
             </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\key.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\key.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
