@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+"stm_car\startup_stm32f103xe.o"
+"stm_car\main.o"
+"stm_car\gpio.o"
+"stm_car\tim.o"
+"stm_car\stm32f1xx_it.o"
+"stm_car\stm32f1xx_hal_msp.o"
+"stm_car\stm32f1xx_hal_gpio_ex.o"
+"stm_car\stm32f1xx_hal_tim.o"
+"stm_car\stm32f1xx_hal_tim_ex.o"
+"stm_car\stm32f1xx_hal.o"
+"stm_car\stm32f1xx_hal_rcc.o"
+"stm_car\stm32f1xx_hal_rcc_ex.o"
+"stm_car\stm32f1xx_hal_gpio.o"
+"stm_car\stm32f1xx_hal_dma.o"
+"stm_car\stm32f1xx_hal_cortex.o"
+"stm_car\stm32f1xx_hal_pwr.o"
+"stm_car\stm32f1xx_hal_flash.o"
+"stm_car\stm32f1xx_hal_flash_ex.o"
+"stm_car\stm32f1xx_hal_exti.o"
+"stm_car\system_stm32f1xx.o"
+"stm_car\motor.o"
+--strict --scatter "STM_CAR\STM_CAR.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "STM_CAR.map" -o STM_CAR\STM_CAR.axf

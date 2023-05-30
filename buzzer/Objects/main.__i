@@ -1,6 +1,0 @@
--c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware
--I "D:\qian ru shi\stm32\STM32\buzzer\RTE"
--I "D:\GongZuo rj\keil5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include"
--I "D:\GongZuo rj\keil5\ARM\CMSIS\Include"
--D__UVISION_VERSION="518" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER
--o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d "Hardware\main.c"
