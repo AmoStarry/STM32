@@ -12,7 +12,7 @@
  */
 void LeftMotor_Go() // 左电机正转 AIN1 1 、AIN 0  //
 {
-	HAL_GPIO_WritePin(AIN1_GPIO_Port, AI N1_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(AIN1_GPIO_Port, AIN1_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(AIN2_GPIO_Port, AIN2_Pin, GPIO_PIN_RESET);
 }
 
