@@ -1,7 +1,7 @@
 Dependencies for Project 'STM_CAR', Target 'STM_CAR': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 for Certification (build 960)::.\ARMCC
 F (startup_stm32f103xe.s)(0x648004DB)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_STM_CAR-ID:\rujian\keil5\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include--pd "__UVISION_VERSION SETA 538" --pd "_RTE_ SETA 1" --pd "STM32F10X_MD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xe.lst --xref -o stm_car\startup_stm32f103xe.o --depend stm_car\startup_stm32f103xe.d)
-F (../Core/Src/main.c)(0x648007B9)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User_H-I.\RTE\_STM_CAR-ID:\rujian\keil5\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o stm_car\main.o --omf_browse stm_car\main.crf --depend stm_car\main.d)
+F (../Core/Src/main.c)(0x64805B58)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User_H-I.\RTE\_STM_CAR-ID:\rujian\keil5\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o stm_car\main.o --omf_browse stm_car\main.crf --depend stm_car\main.d)
 I (../Core/Inc/main.h)(0x647EB29E)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645C726B)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x647EB59E)
@@ -71,7 +71,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645C726B)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x645C726B)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x645C726B)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645C726B)
-F (../Core/Src/adc.c)(0x64800763)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User_H-I.\RTE\_STM_CAR-ID:\rujian\keil5\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o stm_car\adc.o --omf_browse stm_car\adc.crf --depend stm_car\adc.d)
+F (../Core/Src/adc.c)(0x64800C7C)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User_H-I.\RTE\_STM_CAR-ID:\rujian\keil5\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o stm_car\adc.o --omf_browse stm_car\adc.crf --depend stm_car\adc.d)
 I (../Core/Inc/adc.h)(0x647EB29C)
 I (../Core/Inc/main.h)(0x647EB29E)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645C726B)
@@ -772,7 +772,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645C726B)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x645C726B)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x645C726B)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645C726B)
-F (..\User_C\motor.c)(0x647EA75B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User_H-I.\RTE\_STM_CAR-ID:\rujian\keil5\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o stm_car\motor.o --omf_browse stm_car\motor.crf --depend stm_car\motor.d)
+F (..\User_C\motor.c)(0x64805B7B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../User_H-I.\RTE\_STM_CAR-ID:\rujian\keil5\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o stm_car\motor.o --omf_browse stm_car\motor.crf --depend stm_car\motor.d)
 I (../User_H/motor.h)(0x645C7733)
 I (../Core/Inc/main.h)(0x647EB29E)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645C726B)

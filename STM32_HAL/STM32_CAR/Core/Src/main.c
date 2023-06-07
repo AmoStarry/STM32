@@ -32,7 +32,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+uint16_t ADCDate[4];
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -118,8 +118,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-       printf("666");
-     MotorControl(1, 500, 500); //直行 
+//     HAL_ADC_Start_DMA(&hadc1,(uint32_t*)ADCDate,sizeof(ADCDate)/sizeof(ADCDate[0]));
+//     printf("%d %d %d %d\n\r",ADCDate[0],ADCDate[1],ADCDate[2],ADCDate[3]);
+//     HAL_Delay(1000);
+     MotorControl(2, 900, 900); //直行 
     /* USER CODE BEGIN 3 */
 
        

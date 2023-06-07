@@ -60,7 +60,7 @@ void MotorControl(char motorDirection, int leftMotorPWM, int rightMotorPWM) {
 	case 2:
 		LeftMotor_Back();
 		RightMotor_Back();
-		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,leftMotorPWM);
+		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_4, leftMotorPWM);
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, rightMotorPWM);
 		break;
 	case 3:
