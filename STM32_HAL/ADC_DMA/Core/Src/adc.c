@@ -92,6 +92,9 @@ void MX_ADC1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN ADC1_Init 2 */
+   HAL_ADCEx_Calibration_Start(&hadc1);
+  
+   HAL_ADC_Start_DMA(&hadc1,adc_converted_value,4);
 
   /* USER CODE END ADC1_Init 2 */
 

@@ -25,12 +25,13 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+ #include "stdio.h"
 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+uint32_t  adc_converted_value[4]={0};
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -57,6 +58,22 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+     #ifdef __GNUC__
+     #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+     #else
+     #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+     #endif
+     PUTCHAR_PROTOTYPE
+     {
+         HAL_UART_Transmit(&huart1 , (uint8_t *)&ch, 1, 0xFFFF);
+         return ch;
+     }
+     
+     void adc_printf_callback(void)
+     {
+          printf(" (PC0) %.2f (PC1) %.2f (PC2) %.2f (PC3) %.2f\n\r ",(float)(adc_converted_value[0]),(float)(adc_converted_value[1]),(float)(adc_converted_value[2]),(float)(adc_converted_value[3]));
+         
+     }
 
 /* USER CODE END 0 */
 
@@ -94,13 +111,15 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
-
+  
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-
+    
+     adc_printf_callback();
+     HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

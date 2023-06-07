@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "motor.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,6 +60,19 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+
+#ifdef __GNUC__
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif
+PUTCHAR_PROTOTYPE
+{
+    HAL_UART_Transmit(&huart1 , (uint8_t *)&ch, 1, 0xFFFF);
+    return ch;
+}
+
+
 /* USER CODE END 0 */
 
 /**
@@ -68,7 +82,6 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-     uint16_t DMAadc[4];
 
   /* USER CODE END 1 */
 
@@ -95,33 +108,21 @@ int main(void)
   MX_ADC1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-//     int i;
+
      HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
      HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
   /* USER CODE END 2 */
-     HAL_ADCEx_Calibration_Start(&hadc1)
-     
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-
+       printf("666");
+     MotorControl(1, 500, 500); //直行 
     /* USER CODE BEGIN 3 */
-//     for (i=0;i<1000;i++)
-//            {
-//                 TIM1->CCR2 = i;
-//                 HAL_Delay(1);
-//            }
-//     for (i=1000;i>0;i--)
-//            {
-//                 TIM1->CCR2 = i;
-//                 HAL_Delay(1);
-//            }
-//     
-     //__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,500);
-     MotorControl(1, 500, 500); //直行   
+
+       
   }
   /* USER CODE END 3 */
 }

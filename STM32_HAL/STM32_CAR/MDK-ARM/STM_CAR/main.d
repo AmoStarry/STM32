@@ -36,3 +36,4 @@ stm_car\main.o: ../Core/Inc/tim.h
 stm_car\main.o: ../Core/Inc/usart.h
 stm_car\main.o: ../Core/Inc/gpio.h
 stm_car\main.o: ../User_H/motor.h
+stm_car\main.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdio.h
