@@ -33,3 +33,4 @@
 .\objects\main.o: .\Hardware\usart.h
 .\objects\main.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\main.o: .\Hardware\led.h

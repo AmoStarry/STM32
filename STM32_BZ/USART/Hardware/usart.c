@@ -1,5 +1,5 @@
 #include "usart.h"
-
+ u16 r;
 uint8_t USART_TxPacket[4];
 uint8_t USART_RxPacket[4];
 
@@ -79,7 +79,7 @@ void USART_SendBit(USART_TypeDef* USARTx,uint16_t Data)
 **************************************************/
 void USART1_IRQHandler(void)
 {
-	u16 r;
+	
 	if(USART_GetITStatus(USART1, USART_IT_RXNE) == SET)  //≈–∂œ÷–∂œ±Í÷æ
 	{
 		r = USART_ReceiveData(USART1);
