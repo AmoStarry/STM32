@@ -9,7 +9,7 @@ uint8_t RxData;
 int main()
 {
      USART1_Init(9600);
-	
+	LED_Init();
 	OLED_Init();
      printf("\n\rNum=%d\n\r",666);
      
@@ -19,13 +19,14 @@ int main()
           {
                printf("\n\rNum=%d\n\r",777);
                LED1_ON();
-               LED2_ON();
+               
+               
           }
           else if(r == '0')
           {
                printf("\n\rNum=%d\n\r",888);
                LED1_OFF();
-               LED2_OFF();
+              
           }
 	}
 }
