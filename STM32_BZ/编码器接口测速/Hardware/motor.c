@@ -62,19 +62,19 @@ void MotorControl(char motorDirection, int leftMotorPWM, int rightMotorPWM) {
 		LeftMotor_Go();
 		RightMotor_Go();
 		TIM_SetCompare1(TIM1, leftMotorPWM);
-		TIM_SetCompare1(TIM1, rightMotorPWM); 
+		TIM_SetCompare4(TIM1, rightMotorPWM); 
 		break;
 	case 2:
 		LeftMotor_Back();
 		RightMotor_Back();
 		TIM_SetCompare1(TIM1, leftMotorPWM);
-		TIM_SetCompare1(TIM1, rightMotorPWM); 
+		TIM_SetCompare4(TIM1, rightMotorPWM); 
 		break;
 	case 3:
 		LeftMotor_Stop();
 		RightMotor_Stop();
 		TIM_SetCompare1(TIM1, 0);
-		TIM_SetCompare1(TIM1, 0); 
+		TIM_SetCompare4(TIM1, 0); 
 		break;
 	default:
 		break;

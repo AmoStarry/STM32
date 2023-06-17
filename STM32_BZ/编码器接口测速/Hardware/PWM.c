@@ -1,5 +1,9 @@
 #include "stm32f10x.h"                  // Device header
-
+/**
+*    @brief PWM初始化 Pwm:PA8、PA11
+ *    @param None
+ *    @retval None
+ */
 void PWM_Init(void)
 {
      GPIO_InitTypeDef GPIO_InitStructure; //定义GPIO结构体
@@ -21,8 +25,8 @@ void PWM_Init(void)
 	
 	TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV1 ;      //选择外部高速系统时钟作为分频来源
 	TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;  //向上计数模式
-	TIM_TimeBaseInitStructure.TIM_Period = 100 - 1;		          //ARR 计数器重装值  PWM频率 = 时钟频率/时钟分频+1/重装值+1  =72/(PSC+1)/(ARR+1)
-	TIM_TimeBaseInitStructure.TIM_Prescaler = 720 - 1;		     //PSC 时钟分频
+	TIM_TimeBaseInitStructure.TIM_Period = 999;		          //ARR 计数器重装值  PWM频率 = 时钟频率/时钟分频+1/重装值+1  =72/(PSC+1)/(ARR+1)
+	TIM_TimeBaseInitStructure.TIM_Prescaler = 3;		     //PSC 时钟分频
 	TIM_TimeBaseInitStructure.TIM_RepetitionCounter = 0;
 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseInitStructure);             
 	

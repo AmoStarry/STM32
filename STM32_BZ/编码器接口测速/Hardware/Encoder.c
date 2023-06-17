@@ -1,5 +1,5 @@
 #include "stm32f10x.h"                  // Device header
-
+#include "usart.h"
 #define ENCODER_TIM_PSC  0          /*计数器分频*/
 #define ENCODER_TIM_PERIOD  65535   /*计数器最大值*/
 #define CNT_INIT 0                  /*计数器初值*/
@@ -39,21 +39,36 @@ void Encoder_Init(void)
 	TIM_TimeBaseInitStructure.TIM_RepetitionCounter = 0;            
 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseInitStructure);
 	
-	
-	TIM_ICStructInit(&TIM_ICInitStructure);               //结构体配置不完整赋初值
-	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;     //通道1
-	TIM_ICInitStructure.TIM_ICFilter = 0;              //输入通道的滤波参数
+     	
+	TIM_ICStructInit(&TIM_ICInitStructure);
+	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
+	TIM_ICInitStructure.TIM_ICFilter = 0xF;
 	TIM_ICInit(TIM3, &TIM_ICInitStructure);
 	TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;
-	TIM_ICInitStructure.TIM_ICFilter = 0;
+	TIM_ICInitStructure.TIM_ICFilter = 0xF;
 	TIM_ICInit(TIM3, &TIM_ICInitStructure);
 	
 	TIM_EncoderInterfaceConfig(TIM3, TIM_EncoderMode_TI12, TIM_ICPolarity_Rising, TIM_ICPolarity_Rising);
 	
-     TIM_SetCounter(TIM3, CNT_INIT);      /*CNT设初值*/
-	TIM_ClearFlag(TIM3,TIM_IT_Update);   /*中断标志清0*/
-	TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE); /*中断使能*/
 	TIM_Cmd(TIM3, ENABLE);
+     
+     
+     
+	
+//	TIM_ICStructInit(&TIM_ICInitStructure);               //结构体配置不完整赋初值
+//	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;     //通道1
+//	TIM_ICInitStructure.TIM_ICFilter = 0;              //输入通道的滤波参数
+//	TIM_ICInit(TIM3, &TIM_ICInitStructure);
+//	TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;
+//	TIM_ICInitStructure.TIM_ICFilter = 0;
+//	TIM_ICInit(TIM3, &TIM_ICInitStructure);
+//	
+//	TIM_EncoderInterfaceConfig(TIM3, TIM_EncoderMode_TI12, TIM_ICPolarity_Falling, TIM_ICPolarity_Rising);
+//	
+//     TIM_SetCounter(TIM3, CNT_INIT);      /*CNT设初值*/
+//	TIM_ClearFlag(TIM3,TIM_IT_Update);   /*中断标志清0*/
+//	TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE); /*中断使能*/
+//	TIM_Cmd(TIM3, ENABLE);
 }
 
 int16_t Encoder_Get(void)
@@ -64,16 +79,16 @@ int16_t Encoder_Get(void)
 	return Temp;
 }
 
-//计算电机转速（被另一个定时器100ms调用1次）
-void motor_speed(void)
-{
-	int encoderNum = 0;
-	float rotateSpeed = 0;
-	
-	/*读取编码器的值，正负代表旋转方向*/
-	encoderNum = Encoder_Get();
-	/* 转速(1秒钟转多少圈)=单位时间内的计数值/总分辨率*时间系数 */
-	rotateSpeed = (float)encoderNum/TOTAL_RESOLUTION*10;
-     printf("encoder: %d\t speed:%.2f rps\r\n",encoderNum,rotateSpeed);
-}
+////计算电机转速（被另一个定时器100ms调用1次）
+//void motor_speed(void)
+//{
+//	int encoderNum = 0;
+//	float rotateSpeed = 0;
+//	
+//	/*读取编码器的值，正负代表旋转方向*/
+//	encoderNum = Encoder_Get();
+//	/* 转速(1秒钟转多少圈)=单位时间内的计数值/总分辨率*时间系数 */
+//	rotateSpeed = (float)encoderNum/TOTAL_RESOLUTION*10;
+//     printf("encoder: %d\t speed:%.2f rps\r\n",encoderNum,rotateSpeed);
+//}
 
