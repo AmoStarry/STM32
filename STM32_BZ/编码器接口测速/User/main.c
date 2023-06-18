@@ -19,7 +19,7 @@ int main(void)
 	USART1_Init(9600);	
 	while (1)
 	{
-          //TIM_SetCompare4(TIM1,50);
+          
           //printf("666/n/r");
           MotorControl(1,1000,1000);
 		
