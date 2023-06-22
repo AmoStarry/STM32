@@ -17,14 +17,14 @@ int main()
 	{
 		if(r== '1')
           {
-               printf("\n\rNum=%d\n\r",777);
+               //printf("\n\rNum=%d\n\r",777);
                LED1_ON();
                
                
           }
           else if(r == '0')
           {
-               printf("\n\rNum=%d\n\r",888);
+               //printf("\n\rNum=%d\n\r",888);
                LED1_OFF();
               
           }
