@@ -664,16 +664,6 @@
               <FileType>5</FileType>
               <FilePath>.\System\Delay.h</FilePath>
             </File>
-            <File>
-              <FileName>IIC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\System\IIC.c</FilePath>
-            </File>
-            <File>
-              <FileName>IIC.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\System\IIC.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
