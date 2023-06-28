@@ -31,3 +31,4 @@
 .\objects\encoder.o: .\System\usart.h
 .\objects\encoder.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\encoder.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\encoder.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\string.h

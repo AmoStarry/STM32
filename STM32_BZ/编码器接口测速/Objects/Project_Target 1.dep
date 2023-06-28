@@ -809,10 +809,11 @@ I (.\Library\stm32f10x_usart.h)(0x4D783BB4)
 I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
 F (.\System\Timer.h)(0x61F11D95)()
-F (.\System\usart.c)(0x648BBA98)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\objects\usart.o --omf_browse .\objects\usart.crf --depend .\objects\usart.d)
-I (System\usart.h)(0x647DD297)
+F (.\System\usart.c)(0x649C2A60)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\objects\usart.o --omf_browse .\objects\usart.crf --depend .\objects\usart.d)
+I (System\usart.h)(0x649C2A60)
 I (D:\rujian\keil5\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (D:\rujian\keil5\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
+I (D:\rujian\keil5\ARM\ARMCC\include\string.h)(0x5E8E3CC2)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
 I (.\Start\core_cm3.h)(0x4D523B58)
 I (D:\rujian\keil5\ARM\ARMCC\include\stdint.h)(0x5E8E3CC2)
@@ -841,7 +842,7 @@ I (.\Library\stm32f10x_tim.h)(0x4D783BB4)
 I (.\Library\stm32f10x_usart.h)(0x4D783BB4)
 I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
-F (.\System\usart.h)(0x647DD297)()
+F (.\System\usart.h)(0x649C2A60)()
 F (.\System\PID.c)(0x648EBFA2)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\objects\pid.o --omf_browse .\objects\pid.crf --depend .\objects\pid.d)
 F (.\System\PID.h)(0x648EBAA4)()
 F (.\System\protocol.c)(0x649C28AA)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\objects\protocol.o --omf_browse .\objects\protocol.crf --depend .\objects\protocol.d)
@@ -874,7 +875,7 @@ I (.\Library\stm32f10x_tim.h)(0x4D783BB4)
 I (.\Library\stm32f10x_usart.h)(0x4D783BB4)
 I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
-I (System\usart.h)(0x647DD297)
+I (System\usart.h)(0x649C2A60)
 I (D:\rujian\keil5\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (D:\rujian\keil5\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
 I (D:\rujian\keil5\ARM\ARMCC\include\string.h)(0x5E8E3CC2)
@@ -1003,9 +1004,10 @@ I (.\Library\stm32f10x_tim.h)(0x4D783BB4)
 I (.\Library\stm32f10x_usart.h)(0x4D783BB4)
 I (.\Library\stm32f10x_wwdg.h)(0x4D783BB4)
 I (.\Library\misc.h)(0x4D783BB4)
-I (.\System\usart.h)(0x647DD297)
+I (.\System\usart.h)(0x649C2A60)
 I (D:\rujian\keil5\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (D:\rujian\keil5\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
+I (D:\rujian\keil5\ARM\ARMCC\include\string.h)(0x5E8E3CC2)
 F (.\Hardware\Encoder.h)(0x648D7597)()
 F (.\Hardware\PWM.c)(0x648DABDC)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware-ID:\rujian\keil5\Keil\STM32F1xx_DFP\2.4.0\Device\Include-D__UVISION_VERSION="538" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\objects\pwm.o --omf_browse .\objects\pwm.crf --depend .\objects\pwm.d)
 I (.\Start\stm32f10x.h)(0x4D783CB4)
@@ -1100,9 +1102,10 @@ I (.\Library\misc.h)(0x4D783BB4)
 I (.\System\Delay.h)(0x6130920D)
 I (.\Hardware\OLED.h)(0x616ED05A)
 I (.\System\Timer.h)(0x61F11D95)
-I (.\System\usart.h)(0x647DD297)
+I (.\System\usart.h)(0x649C2A60)
 I (D:\rujian\keil5\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (D:\rujian\keil5\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
+I (D:\rujian\keil5\ARM\ARMCC\include\string.h)(0x5E8E3CC2)
 I (.\Hardware\Encoder.h)(0x648D7597)
 I (.\Hardware\PWM.h)(0x648C0B66)
 I (.\Hardware\motor.h)(0x648D8610)

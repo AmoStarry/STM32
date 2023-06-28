@@ -61,7 +61,15 @@ System\protocol.c(406): warning:  #223-D: function "TIMx_calcPID_stop" declared 
 System\protocol.c(452): warning:  #223-D: function "usart1_send" declared implicitly
   	usart1_send((uint8_t *)&set_packet, sizeof(set_packet));    // 发送数据头
 System\protocol.c: 8 warnings, 3 errors
-".\Objects\Project.axf" - 6 Error(s), 9 Warning(s).
+compiling usart.c...
+System\usart.c(100): warning:  #223-D: function "protocol_data_recv" declared implicitly
+  		protocol_data_recv(bufcopy, rx_cnt);
+System\usart.c(107): error:  #36: the #if for this directive is missing
+  #endif	
+System\usart.c: 1 warning, 1 error
+compiling main.c...
+compiling Encoder.c...
+".\Objects\Project.axf" - 7 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -75,7 +83,7 @@ Package Vendor: Keil
 
 <h2>Collection of Component Files used:</h2>
 Target not created.
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

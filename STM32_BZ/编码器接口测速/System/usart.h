@@ -2,6 +2,7 @@
 #define USART_H_
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 #include "stm32f10x.h"
 
 extern uint8_t USART_TxPacket[4];
