@@ -140,9 +140,12 @@ void USART1_IRQHandler(void)
 		data = USART1->DR;
 		
 		//清空本地接收数组
-		memset(bufcopy,0,sizecopy);
+		memset(bufcopy,0,sizecopy);  /* void *memset(void *s,int c,unsigned long n);
+                                         指针变量s所指的前n个字节的内存单元填充给定的int型数值c，它可以为任何数据进行初始化
+                                         是将数值c以单个字节逐个拷贝的方式放到指针变量s所指的内存中去*/
 		
-		memcpy(bufcopy,Recv1,rx_cnt);//有几个复制几个
+		memcpy(bufcopy,Recv1,rx_cnt);// 有几个复制几个, 以source指向的地址为起点，将连续的n个字节数据，复制到以destin指向的地址为起点的内存中。
+                                       //函数有三个参数，第一个是目标地址，第二个是源地址，第三个是数据长度
 		
 		protocol_data_recv(bufcopy, rx_cnt);
 

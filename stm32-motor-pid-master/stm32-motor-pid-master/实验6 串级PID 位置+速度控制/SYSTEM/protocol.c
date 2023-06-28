@@ -335,7 +335,7 @@ int8_t receiving_process(void)
 {
 	uint8_t frame_data[128];         // 要能放下最长的帧
 	uint16_t frame_len = 0;          // 帧长度
-	uint8_t cmd_type = CMD_NONE;     // 命令类型
+	uint8_t cmd_type = CMD_NONE;     // 命令类型   //初值给空指令
 	packet_head_t packet;
 
 	while(1)
@@ -369,7 +369,7 @@ int8_t receiving_process(void)
 				}
 				else if (packet.ch == CURVES_CH2)
 				{
-					set_p_i_d(&pid_speed, temp_p.f, temp_i.f, temp_d.f);    // 通道1设置速度PID
+					set_p_i_d(&pid_speed, temp_p.f, temp_i.f, temp_d.f);    // 通道2设置速度PID
 				}
 			}
 			break;

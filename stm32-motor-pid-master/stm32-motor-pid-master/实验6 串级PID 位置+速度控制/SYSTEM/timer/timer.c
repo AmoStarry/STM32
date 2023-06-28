@@ -26,7 +26,7 @@ void TIMx_calcPID_init(u16 arr,u16 psc)
 	TIM_ITConfig(TIM7,TIM_IT_Update,ENABLE); //允许定时器6更新中断
 	TIM_Cmd(TIM7,DISABLE); //初始化时先不开启定时器7
 	
-	NVIC_InitStructure.NVIC_IRQChannel=TIM7_IRQn; //定时器6中断
+	NVIC_InitStructure.NVIC_IRQChannel=TIM7_IRQn; //定时器7中断
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x01; //抢占优先级1
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority=0x03; //子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
