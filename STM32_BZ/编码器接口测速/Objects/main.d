@@ -31,10 +31,10 @@
 .\objects\main.o: .\System\Delay.h
 .\objects\main.o: .\Hardware\OLED.h
 .\objects\main.o: .\System\Timer.h
+.\objects\main.o: .\Hardware\Encoder.h
 .\objects\main.o: .\System\usart.h
 .\objects\main.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\main.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\main.o: .\Hardware\Encoder.h
-.\objects\main.o: .\Hardware\PWM.h
 .\objects\main.o: .\Hardware\motor.h
+.\objects\main.o: .\Hardware\PWM.h
+.\objects\main.o: .\System\PID.h

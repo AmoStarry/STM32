@@ -28,7 +28,3 @@
 .\objects\encoder.o: .\Library\stm32f10x_usart.h
 .\objects\encoder.o: .\Library\stm32f10x_wwdg.h
 .\objects\encoder.o: .\Library\misc.h
-.\objects\encoder.o: .\System\usart.h
-.\objects\encoder.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\encoder.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\encoder.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\string.h
