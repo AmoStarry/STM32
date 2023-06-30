@@ -25,4 +25,6 @@ void USART_SendNumber(USART_TypeDef* USARTx,uint32_t Number, uint8_t Length);//∑
 int fputc(int ch, FILE *f);
 void USART_Printf(char *format, ...);//¥Ú”°
 
+void usart1_send(u8*data, u8 len);
+
 #endif

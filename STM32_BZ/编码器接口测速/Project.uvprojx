@@ -694,6 +694,26 @@
               <FileType>5</FileType>
               <FilePath>.\System\PID.h</FilePath>
             </File>
+            <File>
+              <FileName>protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\protocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>protocol.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\protocol.h</FilePath>
+            </File>
+            <File>
+              <FileName>USAR_PID.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\USAR_PID.c</FilePath>
+            </File>
+            <File>
+              <FileName>USAR_PID.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\USAR_PID.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

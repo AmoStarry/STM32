@@ -15,14 +15,14 @@ void PID_param_init()
 	float pid_temp[3];
 
 	/* 初始化参数(连接上位机后, 可实时修改PID参数) */
-	pid.target_val=0.0;				
+	pid.target_val=500;				
 	pid.output_val=0.0;
 	pid.err=0.0;
 	pid.err_last=0.0;
 	pid.integral=0.0;
 
-	pid.Kp = 0.0;
-	pid.Ki = 0.0;
+	pid.Kp = 10.0;
+	pid.Ki = 10.0;
 	pid.Kd = 0.0;
 
 #if defined(PID_ASSISTANT_EN)

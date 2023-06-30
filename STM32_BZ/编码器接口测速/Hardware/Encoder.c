@@ -31,6 +31,31 @@ void Encoder_Init(void)
 	TIM_EncoderInterfaceConfig(TIM3, TIM_EncoderMode_TI12, TIM_ICPolarity_Rising, TIM_ICPolarity_Rising);
 	
 	TIM_Cmd(TIM3, ENABLE);
+     
+     NVIC_InitTypeDef NVIC_InitStructure;
+     NVIC_InitStructure.NVIC_IRQChannel=TIM3_IRQn; //定时器3中断
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x01; //抢占优先级1
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority=0x01; //子优先级1
+	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+}
+
+extern int16_t EncoderOverflowCnt ;
+void TIM3_IRQHandler(void)
+{
+	if(TIM_GetITStatus(TIM3,TIM_IT_Update)==SET) //溢出中断
+	{
+		if((TIM3->CR1 & TIM_CounterMode_Down) != TIM_CounterMode_Down)
+		{
+			EncoderOverflowCnt++;/*编码器计数值[向上]溢出*/
+		}
+		else
+		{
+
+			EncoderOverflowCnt--;/*编码器计数值[向下]溢出*/
+		}
+	}
+	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);  //清除中断标志位
 }
 
 int16_t Encoder_Get(void)

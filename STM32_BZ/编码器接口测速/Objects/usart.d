@@ -31,3 +31,6 @@
 .\objects\usart.o: .\Library\stm32f10x_usart.h
 .\objects\usart.o: .\Library\stm32f10x_wwdg.h
 .\objects\usart.o: .\Library\misc.h
+.\objects\usart.o: System\protocol.h
+.\objects\usart.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\usart.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\string.h

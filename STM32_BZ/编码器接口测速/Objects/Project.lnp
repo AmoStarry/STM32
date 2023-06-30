@@ -29,6 +29,8 @@
 ".\objects\timer.o"
 ".\objects\usart.o"
 ".\objects\pid.o"
+".\objects\protocol.o"
+".\objects\usar_pid.o"
 ".\objects\led.o"
 ".\objects\key.o"
 ".\objects\oled.o"

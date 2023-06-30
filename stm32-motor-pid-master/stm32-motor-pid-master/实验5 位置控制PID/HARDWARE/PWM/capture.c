@@ -89,10 +89,10 @@ void TIM4_IRQHandler(void)
 		}
 		else
 		{
+
 			EncoderOverflowCnt--;/*编码器计数值[向下]溢出*/
 		}
 	}
 	TIM_ClearITPendingBit(TIM4,TIM_IT_Update);  //清除中断标志位
+
 }
-
-

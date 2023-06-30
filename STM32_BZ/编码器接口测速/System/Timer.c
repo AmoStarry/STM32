@@ -29,6 +29,15 @@ void Timer_Init(void)
 	TIM_Cmd(TIM2, ENABLE);
 }
 
+void TIMx_calcPID_start(void)
+{
+	TIM_Cmd(TIM2,ENABLE); //使能定时器2
+}
+void TIMx_calcPID_stop(void)
+{
+	TIM_Cmd(TIM2,DISABLE); //关闭定时器2
+}
+
 /*
 void TIM2_IRQHandler(void)
 {

@@ -38,3 +38,5 @@
 .\objects\main.o: .\Hardware\motor.h
 .\objects\main.o: .\Hardware\PWM.h
 .\objects\main.o: .\System\PID.h
+.\objects\main.o: .\System\protocol.h
+.\objects\main.o: .\System\USAR_PID.h
