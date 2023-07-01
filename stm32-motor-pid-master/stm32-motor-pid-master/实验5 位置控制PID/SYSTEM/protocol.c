@@ -428,7 +428,7 @@ void set_computer_value(uint8_t cmd, uint8_t ch, void *data, uint8_t num)
 
 	uint8_t sum = 0;    // 校验和
 	num *= 4;           // 一个参数 4 个字节
-    
+
 	set_packet.head = FRAME_HEADER;     // 包头 0x59485A53
 	set_packet.ch   = ch;              // 设置通道
 	set_packet.len  = 0x0B + num;      // 包长
