@@ -1,5 +1,5 @@
 #include "PID.h"
-
+#include "protocol.h"
 /**
   * @brief  PID算法实现
   * @param  actual_val:实际值
@@ -42,21 +42,21 @@ void PID_Init()
 	float pid_temp[3];
 
 	/* 初始化参数(连接上位机后, 可实时修改PID参数) */
-	pid.target_val=3000;	  //目标值			
+	pid.target_val=9000.0;	  //目标值			
 	pid.output_val=0.0;
 	pid.err=0.0;
 	pid.err_last=0.0;
 	pid.integral=0.0;
 
-	pid.Kp = 0.01;
-	pid.Ki = 2;
-	pid.Kd = 0;
+	pid.Kp = 1000;
+	pid.Ki = 50;
+	pid.Kd = 3;
 
 #if defined(PID_ASSISTANT_EN)
 	pid_temp[0] = pid.Kp;
 	pid_temp[1] = pid.Ki;
 	pid_temp[2] = pid.Kd;
-  //set_computer_value(SEND_P_I_D_CMD, CURVES_CH1, pid_temp, 3);     // 给通道1发送PID值
+     set_computer_value(SEND_P_I_D_CMD, CURVES_CH1, pid_temp, 3);     // 给通道1发送PID值
 #endif
 }
 

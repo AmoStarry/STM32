@@ -22,6 +22,15 @@ int16_t EncoderOverflowCnt = 0;
 int16_t  machou, Speed;  //实际速度
 int pwm = 0;
 int PWM1 = 0;
+
+//static uint32_t location_timer = 0;    // 位置环周期
+	
+static int32_t encoderNow = 0;    /*当前时刻总计数值*/
+static int32_t encoderLast = 0;   /*上一时刻总计数值*/
+int encoderDelta = 0; /*当前时刻与上一时刻编码器的变化量*/
+float actual_speed = 0;  /*实际测得速度*/
+int actual_speed_int = 0;
+
 int pwm_val_protect(int pwm_input);
 
 int32_t target_speed = 0;
@@ -29,11 +38,12 @@ int main(void)
 {
      NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置系统中断优先级分组2
 	OLED_Init();
-	Timer_Init();
-	Encoder_Init();
-     USART1_Init(9600);
      Motor_Init();
      PWM_Init();
+	Timer_Init();
+	Encoder_Init();
+     protocol_init();
+     USART1_Init(115200);
      PID_Init();
      
      #if defined(PID_ASSISTANT_EN)
@@ -48,21 +58,23 @@ int main(void)
 	
 	
 	OLED_ShowString(1, 1, "Speed:");
-	printf("666\n\r");
+//	printf("666\n\r");
 	while (1)
 	{
 
-         
+         receiving_process();
           
 
           
           
-          printf("PID =%d\n\r",pwm);
-          printf("PWM = %d\n\r",PWM1);
-          printf("bianma = %d\n\r",Speed);
-		OLED_ShowSignedNum(1, 7, Speed, 5);
+//          printf("PID =%d\n\r",pwm);
+//          printf("PWM = %d\n\r",PWM1);
+//          printf("bianma = %d\n\r",encoderNow);
+		//OLED_ShowSignedNum(1, 7, Speed, 5);
 	}
 }
+
+
 
 void TIM2_IRQHandler(void)
 {
@@ -70,9 +82,11 @@ void TIM2_IRQHandler(void)
      
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
 	{
-		Speed  = Encoder_Get() + EncoderOverflowCnt*ENCODER_TIM_PERIOD;
+          encoderNow = Encoder_Get() + EncoderOverflowCnt*ENCODER_TIM_PERIOD;/*获取当前的累计值*/
+          encoderDelta = encoderNow - encoderLast; /*得到变化值*/
+          encoderLast = encoderNow;/*更新上次的累计值*/
           //Speed = (float)machou / TOTAL_RESOLUTION * 10 * 60;
-          pwm = PID_realize(Speed);
+          pwm = PID_realize(encoderNow);
           PWM1 = pwm_val_protect((int)pwm);
           
           if(PWM1>0)
@@ -97,7 +111,7 @@ static int i=0;
 	{
 		i=0;
 		//set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderDelta, 1); /*给通道1发送实际的电机【速度】值*/
-		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &Speed, 1); /*给通道1发送实际的电机【位置】值*/
+		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNow, 1); /*给通道1发送实际的电机【位置】值*/
 	}
 #else
 	i++;

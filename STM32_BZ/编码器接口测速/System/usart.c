@@ -11,6 +11,8 @@ uint8_t USART_RxPacket[4];
 uint8_t Recv1[128]={0};//串口接收缓存
 u8 rx_cnt=0;//接收数据个数计数变量
 int sizecopy=128;
+u8 USART_RX_BUF[USART_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
+u16 USART_RX_STA=0;       //接收状态标记	
 
 /*************************************************
 *函数名：     USART1_Init
@@ -50,119 +52,121 @@ void USART1_Init(uint32_t bound)
      USART_Cmd(USART1,ENABLE); //串口使能
      
      USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);  //接收中断使能   (有查询和中断两种方法实现接收)
+     USART_ITConfig(USART1, USART_IT_IDLE, ENABLE);
+     
      NVIC_InitStruct.NVIC_IRQChannel = USART1_IRQn;  //要打开的中断通道
 	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 2; //抢占式优先级
 	NVIC_InitStruct.NVIC_IRQChannelSubPriority = 2;   //相应式优先级
 	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;  //NVIC通道使能
 	NVIC_Init(&NVIC_InitStruct);
 	
-	USART_ClearFlag(USART1, USART_FLAG_TC); //TC位初始值位1，要先清0
+	//USART_ClearFlag(USART1, USART_FLAG_TC); //TC位初始值位1，要先清0
 
 
      
 }
-//直接使用串口发送接收函数会出现内容覆盖的问题，所以需要我们重写函数
-/*************************************************
-*函数名：      USART_SendBit
-*函数功能：    串口发送函数
-*输入：        USARTx:串口  Data：发送的数据
-*返回值：      无
-**************************************************/
-void USART_SendBit(USART_TypeDef* USARTx,uint16_t Data)   
-{
-	USART_SendData(USARTx, Data);
-	while (USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET);
-//	while(!USART_GetFlagStatus(USARTx, USART_FLAG_TXE));  //要等待数据全部转到移位寄存器
-//	USART_ClearFlag(USARTx, USART_FLAG_TXE); //清空标志位
-	
-//    while(!USART_GetFlagStatus(USARTx, USART_FLAG_TC));//要等待数据全部发出
-//    USART_ClearFlag(USARTx, USART_FLAG_TC); //清空标志位
-}
+////直接使用串口发送接收函数会出现内容覆盖的问题，所以需要我们重写函数
+///*************************************************
+//*函数名：      USART_SendBit
+//*函数功能：    串口发送函数
+//*输入：        USARTx:串口  Data：发送的数据
+//*返回值：      无
+//**************************************************/
+//void USART_SendBit(USART_TypeDef* USARTx,uint16_t Data)   
+//{
+//	USART_SendData(USARTx, Data);
+//	while (USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET);
+////	while(!USART_GetFlagStatus(USARTx, USART_FLAG_TXE));  //要等待数据全部转到移位寄存器
+////	USART_ClearFlag(USARTx, USART_FLAG_TXE); //清空标志位
+//	
+////    while(!USART_GetFlagStatus(USARTx, USART_FLAG_TC));//要等待数据全部发出
+////    USART_ClearFlag(USARTx, USART_FLAG_TC); //清空标志位
+//}
 
 
 
 
 
-/*************************************************
-*函数名：       USART_ReceiveBit
-*函数功能：     串口接收函数
-*输入：         USARTx:串口
-*返回值：       接收到的数据
-**************************************************/
-uint16_t USART_ReceiveBit(USART_TypeDef* USARTx)
-{
-	while(!USART_GetFlagStatus(USARTx, USART_FLAG_RXNE)); //等待接收的数据全部接收
-	USART_ClearFlag(USARTx, USART_FLAG_RXNE);
-	return USART_ReceiveData(USARTx);
-}
+///*************************************************
+//*函数名：       USART_ReceiveBit
+//*函数功能：     串口接收函数
+//*输入：         USARTx:串口
+//*返回值：       接收到的数据
+//**************************************************/
+//uint16_t USART_ReceiveBit(USART_TypeDef* USARTx)
+//{
+//	while(!USART_GetFlagStatus(USARTx, USART_FLAG_RXNE)); //等待接收的数据全部接收
+//	USART_ClearFlag(USARTx, USART_FLAG_RXNE);
+//	return USART_ReceiveData(USARTx);
+//}
 
 
-void USART_SenndPaket(void)
-{
-     USART_SendBit(USART1,0xFF);
-     USART_SendArray(USART1,USART_TxPacket,4);
-     USART_SendBit(USART1,0xFE);
-     
-}
+//void USART_SenndPaket(void)
+//{
+//     USART_SendBit(USART1,0xFF);
+//     USART_SendArray(USART1,USART_TxPacket,4);
+//     USART_SendBit(USART1,0xFE);
+//     
+//}
 
 
 
-/*************************************************
-*函数名：      USART_SendArray
-*函数功能：    串口发送函数
-*输入：        USARTx:串口  Array:数组名  Length:长度
-*返回值：      无
-**************************************************/
+///*************************************************
+//*函数名：      USART_SendArray
+//*函数功能：    串口发送函数
+//*输入：        USARTx:串口  Array:数组名  Length:长度
+//*返回值：      无
+//**************************************************/
 
-void USART_SendArray(USART_TypeDef* USARTx,uint8_t *Array, uint16_t Length)
-{
-	uint16_t i;
-	for (i = 0; i < Length; i ++)
-	{
-		USART_SendBit(USARTx,Array[i]);
-	}
-}
+//void USART_SendArray(USART_TypeDef* USARTx,uint8_t *Array, uint16_t Length)
+//{
+//	uint16_t i;
+//	for (i = 0; i < Length; i ++)
+//	{
+//		USART_SendBit(USARTx,Array[i]);
+//	}
+//}
 
-/*************************************************
-*函数名：        USART_SendString
-*函数功能：      串口发送字符串函数
-*输入：          USARTx:串口，string：字符型指针
-*返回值：        无
-**************************************************/
-void USART_SendString(USART_TypeDef* USARTx,char *string)
-{
-	while(*string)
-	{
-		USART_SendBit(USARTx,*string++);
-	}
-}
+///*************************************************
+//*函数名：        USART_SendString
+//*函数功能：      串口发送字符串函数
+//*输入：          USARTx:串口，string：字符型指针
+//*返回值：        无
+//**************************************************/
+//void USART_SendString(USART_TypeDef* USARTx,char *string)
+//{
+//	while(*string)
+//	{
+//		USART_SendBit(USARTx,*string++);
+//	}
+//}
 
-/*************************************************
-*函数名：        USART_SendString
-*函数功能：      串口发送字符串函数
-*输入：          USARTx:串口，Number:数字  Length：长度
-*返回值：        无
-**************************************************/
+///*************************************************
+//*函数名：        USART_SendString
+//*函数功能：      串口发送字符串函数
+//*输入：          USARTx:串口，Number:数字  Length：长度
+//*返回值：        无
+//**************************************************/
 
-uint32_t Serial_Pow(uint32_t X, uint32_t Y)
-{
-	uint32_t Result = 1;
-	while (Y --)
-	{
-		Result *= X;
-	}
-	return Result;
-}
+//uint32_t Serial_Pow(uint32_t X, uint32_t Y)
+//{
+//	uint32_t Result = 1;
+//	while (Y --)
+//	{
+//		Result *= X;
+//	}
+//	return Result;
+//}
 
-void USART_SendNumber(USART_TypeDef* USARTx,uint32_t Number, uint8_t Length)
-{
-	uint16_t i,Num;
-	for (i = 0; i < Length; i ++)
-	{
-          Num = Number / Serial_Pow(10, Length - i - 1) % 10 + '0';
-		USART_SendBit(USARTx,Num);
-	}
-}
+//void USART_SendNumber(USART_TypeDef* USARTx,uint32_t Number, uint8_t Length)
+//{
+//	uint16_t i,Num;
+//	for (i = 0; i < Length; i ++)
+//	{
+//          Num = Number / Serial_Pow(10, Length - i - 1) % 10 + '0';
+//		USART_SendBit(USARTx,Num);
+//	}
+//}
 
 /*************************************************
 *函数名：        fputc
@@ -171,26 +175,27 @@ void USART_SendNumber(USART_TypeDef* USARTx,uint32_t Number, uint8_t Length)
 *返回值：        无
 **************************************************/
 int fputc(int ch, FILE *f)
-{
-	USART_SendBit(USART1,ch);
+{ 	
+	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
+	USART1->DR = (u8) ch;      
 	return ch;
 }
 
-/*************************************************
-*函数名：        USART_Printf
-*函数功能：      自封装串口打印
-*输入：          固定使用USART1  
-*返回值：        无
-**************************************************/
-void USART_Printf(char *format, ...)
-{
-	char String[100];
-	va_list arg;
-	va_start(arg, format);
-	vsprintf(String, format, arg);
-	va_end(arg);
-	USART_SendString(USART1,String);
-}
+///*************************************************
+//*函数名：        USART_Printf
+//*函数功能：      自封装串口打印
+//*输入：          固定使用USART1  
+//*返回值：        无
+//**************************************************/
+//void USART_Printf(char *format, ...)
+//{
+//	char String[100];
+//	va_list arg;
+//	va_start(arg, format);
+//	vsprintf(String, format, arg);
+//	va_end(arg);
+//	USART_SendString(USART1,String);
+//}
 
 
 

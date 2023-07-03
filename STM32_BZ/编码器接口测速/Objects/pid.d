@@ -29,3 +29,7 @@
 .\objects\pid.o: .\Library\stm32f10x_usart.h
 .\objects\pid.o: .\Library\stm32f10x_wwdg.h
 .\objects\pid.o: .\Library\misc.h
+.\objects\pid.o: System\protocol.h
+.\objects\pid.o: System\usart.h
+.\objects\pid.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\pid.o: D:\rujian\keil5\ARM\ARMCC\Bin\..\include\stdarg.h

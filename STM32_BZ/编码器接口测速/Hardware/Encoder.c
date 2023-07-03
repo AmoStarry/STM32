@@ -22,11 +22,15 @@ void Encoder_Init(void)
 	TIM_ICInitTypeDef TIM_ICInitStructure;
 	TIM_ICStructInit(&TIM_ICInitStructure);
 	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
-	TIM_ICInitStructure.TIM_ICFilter = 0xF;
+	TIM_ICInitStructure.TIM_ICFilter = 0;
 	TIM_ICInit(TIM3, &TIM_ICInitStructure);
 	TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;
-	TIM_ICInitStructure.TIM_ICFilter = 0xF;
+	TIM_ICInitStructure.TIM_ICFilter = 0;
 	TIM_ICInit(TIM3, &TIM_ICInitStructure);
+     
+     TIM_SetCounter(TIM4, 0);      /*CNT设初值*/
+	TIM_ClearFlag(TIM4,TIM_IT_Update);   /*中断标志清0*/
+	TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE); /*中断使能*/
 	
 	TIM_EncoderInterfaceConfig(TIM3, TIM_EncoderMode_TI12, TIM_ICPolarity_Rising, TIM_ICPolarity_Rising);
 	
@@ -34,8 +38,8 @@ void Encoder_Init(void)
      
      NVIC_InitTypeDef NVIC_InitStructure;
      NVIC_InitStructure.NVIC_IRQChannel=TIM3_IRQn; //定时器3中断
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x01; //抢占优先级1
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority=0x01; //子优先级1
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1; //抢占优先级1
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority=1; //子优先级1
 	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 }
@@ -62,6 +66,6 @@ int16_t Encoder_Get(void)
 {
 	int16_t Temp;
 	Temp = TIM_GetCounter(TIM3);
-	TIM_SetCounter(TIM3, 0);
+	//TIM_SetCounter(TIM3, 0);
 	return Temp;
 }
