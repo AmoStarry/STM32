@@ -86,7 +86,7 @@ void TIM2_IRQHandler(void)
           encoderDelta = encoderNow - encoderLast; /*得到变化值*/
           encoderLast = encoderNow;/*更新上次的累计值*/
           //Speed = (float)machou / TOTAL_RESOLUTION * 10 * 60;
-          pwm = PID_realize(encoderNow);
+          pwm = PID_realize(encoderDelta);
           PWM1 = pwm_val_protect((int)pwm);
           
           if(PWM1>0)
@@ -110,8 +110,8 @@ static int i=0;
 	if(i==12)
 	{
 		i=0;
-		//set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderDelta, 1); /*给通道1发送实际的电机【速度】值*/
-		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNow, 1); /*给通道1发送实际的电机【位置】值*/
+		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderDelta, 1); /*给通道1发送实际的电机【速度】值*/
+		//set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNow, 1); /*给通道1发送实际的电机【位置】值*/
 	}
 #else
 	i++;

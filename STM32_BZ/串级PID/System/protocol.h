@@ -16,6 +16,14 @@ extern "C" {
 /* 校验数据的长度 */
 #define PROT_FRAME_LEN_CHECKSUM    1
 
+/* 联合体（方便数据转换） */
+typedef union
+{
+  float f;
+  int i;
+}type_cast_t;
+
+
 /* 数据头结构体 */
 typedef __packed struct
 {

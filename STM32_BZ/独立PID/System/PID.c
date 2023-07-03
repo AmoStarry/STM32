@@ -42,15 +42,15 @@ void PID_Init()
 	float pid_temp[3];
 
 	/* 初始化参数(连接上位机后, 可实时修改PID参数) */
-	pid.target_val=9000.0;	  //目标值			
+	pid.target_val=0.0;	  //目标值			
 	pid.output_val=0.0;
 	pid.err=0.0;
 	pid.err_last=0.0;
 	pid.integral=0.0;
 
-	pid.Kp = 1000;
-	pid.Ki = 50;
-	pid.Kd = 3;
+	pid.Kp = 1;
+	pid.Ki = 0;
+	pid.Kd = 0;
 
 #if defined(PID_ASSISTANT_EN)
 	pid_temp[0] = pid.Kp;

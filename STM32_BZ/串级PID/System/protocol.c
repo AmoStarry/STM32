@@ -338,6 +338,9 @@ int8_t receiving_process(void)
 	uint8_t frame_data[128];         // 要能放下最长的帧
 	uint16_t frame_len = 0;          // 帧长度
 	uint8_t cmd_type = CMD_NONE;     // 命令类型
+     packet_head_t packet;
+     extern PID pid_location;
+     extern PID pid_speed;
 
 	while(1)
 	{
@@ -355,19 +358,23 @@ int8_t receiving_process(void)
 			/*设置PID*/
 			case SET_P_I_D_CMD:
 			{
-				/* 接收的4bytes的float型的PID数据合成为一个字 */
-				uint32_t temp0 = COMPOUND_32BIT(&frame_data[13]);
-				uint32_t temp1 = COMPOUND_32BIT(&frame_data[17]);
-				uint32_t temp2 = COMPOUND_32BIT(&frame_data[21]);
+				type_cast_t temp_p, temp_i, temp_d;
 
-				/*uint32_t强制转换为float*/
-				float p_temp, i_temp, d_temp;
-				p_temp = *(float *)&temp0;
-				i_temp = *(float *)&temp1;
-				d_temp = *(float *)&temp2;
+				packet.ch = frame_data[CHX_INDEX_VAL];
 				
-                /*设置PID*/
-				set_p_i_d(p_temp, i_temp, d_temp);   
+				/* 接收的4bytes的float型的PID数据合成为一个字 */
+				temp_p.i = COMPOUND_32BIT(&frame_data[13]);
+				temp_i.i = COMPOUND_32BIT(&frame_data[17]);
+				temp_d.i = COMPOUND_32BIT(&frame_data[21]);
+				
+				if (packet.ch == CURVES_CH1)
+				{
+					set_p_i_d(&pid_location, temp_p.f, temp_i.f, temp_d.f);    // 通道1设置位置PID
+				}
+				else if (packet.ch == CURVES_CH2)
+				{
+					set_p_i_d(&pid_speed, temp_p.f, temp_i.f, temp_d.f);    // 通道2设置速度PID
+				}
 			}
 			break;
 
@@ -375,10 +382,10 @@ int8_t receiving_process(void)
 			case SET_TARGET_CMD:
 			{
 				/* 接收的4bytes的int型的数据合成为一个字 */
-				int actual_temp = COMPOUND_32BIT(&frame_data[13]);  
+				int target_temp = COMPOUND_32BIT(&frame_data[13]);  
+				packet.ch = frame_data[CHX_INDEX_VAL];
 				
-				/*设置目标值*/
-				set_pid_target((float)actual_temp);    
+				set_pid_target(&pid_location, target_temp);    // 设置目标位置值  
 			}
 			break;
 			

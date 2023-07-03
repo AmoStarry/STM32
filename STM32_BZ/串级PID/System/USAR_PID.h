@@ -4,7 +4,10 @@
 #include "stm32f10x.h"                  // Device header
 
 
-void set_p_i_d(float p, float i, float d);
-void set_pid_target(float temp_val);
-float get_pid_target(void);
+void set_p_i_d(PID *pid, float p, float i, float d);
+void set_pid_target(PID *pid, float temp_val);
+float get_pid_target(PID *pid);
+void speed_val_protect(float *speed_val);
+void SetTargetMaxSpeed(int speed);
+int GetTargetMaxSpeed(void);
 #endif
