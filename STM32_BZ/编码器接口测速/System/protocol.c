@@ -392,7 +392,7 @@ int8_t receiving_process(void)
 			case STOP_CMD:
 			{
 				/*Õ£÷πpid‘ÀÀ„*/
-				//set_motor_rotate(0);
+				MotorControl(3,0,0);
 				TIMx_calcPID_stop();
 			}
 			break;
