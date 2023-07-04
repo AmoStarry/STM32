@@ -31,7 +31,7 @@ int PWM1 = 0;
 static uint32_t location_timer = 0;    // 位置环周期
 	
 static int32_t encoderNow = 0;    /*当前时刻总计数值*/
-static int32_t encoderLast = 0;   /*上一时刻总计数值*/
+static int32_t encoderNum = 0;   /*上一时刻总计数值*/
 int encoderDelta = 0; /*当前时刻与上一时刻编码器的变化量*/
 float actual_speed = 0;  /*实际测得速度*/
 int actual_speed_int = 0;
@@ -75,7 +75,6 @@ int main(void)
          receiving_process();
           
 
-            printf("PID =%d\n\r",encoderNow);
 //          printf("PWM = %d\n\r",PWM1);
 //          printf("bianma = %d\n\r",encoderNow);
 		//OLED_ShowSignedNum(1, 7, Speed, 5);
@@ -93,9 +92,12 @@ void TIM2_IRQHandler(void)
      
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
 	{
-          encoderNow = Encoder_Get();//+ EncoderOverflowCnt*ENCODER_TIM_PERIOD;/*获取当前的累计值*/
-          encoderDelta = encoderNow - encoderLast; /*得到变化值*/
-          encoderLast = encoderNow;/*更新上次的累计值*/
+          encoderNow = Encoder_Get();             //10us的CNT计数，10us清零一次
+          encoderNum += encoderNow;                /*所有计数脉冲的累加的累计值*/
+          //+ EncoderOverflowCnt*ENCODER_TIM_PERIOD;/*获取当前的累计值*/
+          //encoderDelta = encoderNow - encoderLast; /*得到变化值*/
+                   printf("bianma = %d\n\r",encoderNum);
+
 	
 	/*【2】位置PID运算，得到PWM控制值*/
 	if ((location_timer++ % 2) == 0)
@@ -103,7 +105,7 @@ void TIM2_IRQHandler(void)
 		float control_val = 0;   /*当前控制值*/
 		
 		/*位置PID计算*/
-		control_val = location_pid_realize(&pid_location, encoderNow);  
+		control_val = location_pid_realize(&pid_location, encoderNum);  
 		
         /*目标速度值限制*/
 		speed_val_protect(&control_val);
@@ -121,7 +123,7 @@ void TIM2_IRQHandler(void)
 	}
 	  
 	/* 转速(1秒钟转多少圈)=单位时间内的计数值/总分辨率*时间系数, 再乘60变为1分钟转多少圈 */
-     actual_speed = (float)encoderDelta / TOTAL_RESOLUTION * 10 * 60;
+     actual_speed = (float)encoderNow / TOTAL_RESOLUTION * 10 * 60;
     
 	/*【3】速度PID运算，得到PWM控制值*/
 	actual_speed_int = actual_speed;
@@ -148,7 +150,7 @@ void TIM2_IRQHandler(void)
 	i++; 
 	if(i%12 == 5)
 	{
-		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNow, 1);   /*给通道1发送实际的电机【位置】值*/
+		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNum, 1);   /*给通道1发送实际的电机【位置】值*/
 	}
 //	else if(i%12 == 10)
 //	{
