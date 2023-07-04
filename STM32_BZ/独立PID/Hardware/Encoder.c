@@ -44,28 +44,28 @@ void Encoder_Init(void)
 	NVIC_Init(&NVIC_InitStructure);
 }
 
-extern int16_t EncoderOverflowCnt ;
-void TIM3_IRQHandler(void)
-{
-	if(TIM_GetITStatus(TIM3,TIM_IT_Update)==SET) //溢出中断
-	{
-		if((TIM3->CR1 & TIM_CounterMode_Down) != TIM_CounterMode_Down)
-		{
-			EncoderOverflowCnt++;/*编码器计数值[向上]溢出*/
-		}
-		else
-		{
+//extern int16_t EncoderOverflowCnt ;
+//void TIM3_IRQHandler(void)
+//{
+//	if(TIM_GetITStatus(TIM3,TIM_IT_Update)==SET) //溢出中断
+//	{
+//		if((TIM3->CR1 & TIM_CounterMode_Down) != TIM_CounterMode_Down)
+//		{
+//			EncoderOverflowCnt++;/*编码器计数值[向上]溢出*/
+//		}
+//		else
+//		{
 
-			EncoderOverflowCnt--;/*编码器计数值[向下]溢出*/
-		}
-	}
-	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);  //清除中断标志位
-}
+//			EncoderOverflowCnt--;/*编码器计数值[向下]溢出*/
+//		}
+//	}
+//	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);  //清除中断标志位
+//}
 
 int16_t Encoder_Get(void)
 {
 	int16_t Temp;
 	Temp = TIM_GetCounter(TIM3);
-	//TIM_SetCounter(TIM3, 0);
+	TIM_SetCounter(TIM3, 0);
 	return Temp;
 }

@@ -386,6 +386,7 @@ int8_t receiving_process(void)
 				packet.ch = frame_data[CHX_INDEX_VAL];
 				
 				set_pid_target(&pid_location, target_temp);    // 设置目标位置值  
+                    set_pid_target(&pid_speed, target_temp);
 			}
 			break;
 			

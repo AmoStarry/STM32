@@ -26,7 +26,7 @@ int PWM1 = 0;
 //static uint32_t location_timer = 0;    // 位置环周期
 	
 static int32_t encoderNow = 0;    /*当前时刻总计数值*/
-static int32_t encoderLast = 0;   /*上一时刻总计数值*/
+static int32_t encoderNum = 0;   /*上一时刻总计数值*/
 int encoderDelta = 0; /*当前时刻与上一时刻编码器的变化量*/
 float actual_speed = 0;  /*实际测得速度*/
 int actual_speed_int = 0;
@@ -82,11 +82,10 @@ void TIM2_IRQHandler(void)
      
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
 	{
-          encoderNow = Encoder_Get() + EncoderOverflowCnt*ENCODER_TIM_PERIOD;/*获取当前的累计值*/
-          encoderDelta = encoderNow - encoderLast; /*得到变化值*/
-          encoderLast = encoderNow;/*更新上次的累计值*/
+          encoderNow = Encoder_Get();             //10us的CNT计数，10us清零一次
+          encoderNum += encoderNow;                /*所有计数脉冲的累加的累计值*/
           //Speed = (float)machou / TOTAL_RESOLUTION * 10 * 60;
-          pwm = PID_realize(encoderDelta);
+          pwm = PID_realize(encoderNum);
           PWM1 = pwm_val_protect((int)pwm);
           
           if(PWM1>0)
@@ -110,7 +109,7 @@ static int i=0;
 	if(i==12)
 	{
 		i=0;
-		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderDelta, 1); /*给通道1发送实际的电机【速度】值*/
+		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNum, 1); /*给通道1发送实际的电机【速度】值*/
 		//set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNow, 1); /*给通道1发送实际的电机【位置】值*/
 	}
 #else

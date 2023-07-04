@@ -96,107 +96,72 @@ void TIM2_IRQHandler(void)
           encoderNum += encoderNow;                /*所有计数脉冲的累加的累计值*/
           //+ EncoderOverflowCnt*ENCODER_TIM_PERIOD;/*获取当前的累计值*/
           //encoderDelta = encoderNow - encoderLast; /*得到变化值*/
-                   printf("bianma = %d\n\r",encoderNum);
+          printf("bianma = %d\n\r",encoderNum);
 
 	
-	/*【2】位置PID运算，得到PWM控制值*/
-	if ((location_timer++ % 2) == 0)
-	{
-		float control_val = 0;   /*当前控制值*/
-		
-		/*位置PID计算*/
-		control_val = location_pid_realize(&pid_location, encoderNum);  
-		
-        /*目标速度值限制*/
-		speed_val_protect(&control_val);
+//          /*【2】位置PID运算，得到PWM控制值*/
+//          if ((location_timer++ % 2) == 0)
+//          {
+//               float control_val = 0;   /*当前控制值*/
+//               
+//               /*位置PID计算*/
+//               control_val = location_pid_realize(&pid_location, encoderNum);  
+//               
+//             /*目标速度值限制*/
+//     		speed_val_protect(&control_val);
 
-		/*设定速度PID的目标值*/
-		set_pid_target(&pid_speed, control_val);    
+//     		/*设定速度PID的目标值*/
+//     		set_pid_target(&pid_speed, control_val);    
 
-		#if defined(PID_ASSISTANT_EN)
-		if ((location_timer % 16) == 8)
-		{
-			temp = (int)control_val;
-			set_computer_value(SEND_TARGET_CMD, CURVES_CH2, &temp, 1);     // 给通道 2 发送目标值
-		}
-		#endif
-	}
-	  
-	/* 转速(1秒钟转多少圈)=单位时间内的计数值/总分辨率*时间系数, 再乘60变为1分钟转多少圈 */
-     actual_speed = (float)encoderNow / TOTAL_RESOLUTION * 10 * 60;
-    
-	/*【3】速度PID运算，得到PWM控制值*/
-	actual_speed_int = actual_speed;
-	PWM1 = pwm_val_protect((int)speed_pid_realize(&pid_speed, actual_speed));
-	
-	/*【4】PWM控制电机*/
-          if(PWM1>0)
-          {
-            PWM1 =PWM1;
-            MotorControl(1,PWM1 ,PWM1);
-          }
-          else if(PWM1<0)
-          {
-               PWM1 = -PWM1;
-               MotorControl(2,PWM1 ,PWM1);
-          }
-          else if(PWM1 == 0)
-          {
-               MotorControl(3,0,0);
-          }
-	
-	/*【5】数据上传到上位机显示*/
+//#if defined(PID_ASSISTANT_EN)
+//     		if ((location_timer % 16) == 8)
+//     		{
+//     			temp = (int)control_val;
+//     			set_computer_value(SEND_TARGET_CMD, CURVES_CH2, &temp, 1);     // 给通道 2 发送目标值
+//     		}
+//#endif
+//     	
+     	  
+     	    /* 转速(1秒钟转多少圈)=单位时间内的计数值/总分辨率*时间系数, 再乘60变为1分钟转多少圈 */
+              actual_speed = (float)encoderNow / TOTAL_RESOLUTION * 10 * 60;
+              printf("actual_speed = %.3f\n\r",actual_speed);
+     	   /*【3】速度PID运算，得到PWM控制值*/
+     	    actual_speed_int = actual_speed;
 
-	i++; 
-	if(i%12 == 5)
-	{
-		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNum, 1);   /*给通道1发送实际的电机【位置】值*/
-	}
-//	else if(i%12 == 10)
-//	{
-//		set_computer_value(SEND_FACT_CMD, CURVES_CH2, &actual_speed_int, 1); /*给通道2发送实际的电机【速度】值*/
-//	}
-	
+     	    PWM1 = pwm_val_protect((int)speed_pid_realize(&pid_speed, actual_speed));
+              //PWM1 = pwm_val_protect((int)control_val);
+          /*【4】PWM控制电机*/
+               if(PWM1>0)
+               {
+                 PWM1 =PWM1;
+                 MotorControl(1,PWM1 ,PWM1);
+               }
+               else if(PWM1<0)
+               {
+                    PWM1 = -PWM1;
+                    MotorControl(2,PWM1 ,PWM1);
+               }
+               else if(PWM1 == 0)
+               {
+                    MotorControl(3,0,0);
+               }
           
-          
-          
-          if(PWM1>0)
-          {
-            PWM1 =PWM1;
-            MotorControl(1,PWM1 ,PWM1);
+           /*【5】数据上传到上位机显示*/
+
+               i++; 
+               if(i%12 == 5)
+               {
+                    set_computer_value(SEND_FACT_CMD, CURVES_CH2, &actual_speed, 1);   /*给通道1发送实际的电机【位置】值*/
+               }
+          //	else if(i%12 == 10)
+          //	{
+          //		set_computer_value(SEND_FACT_CMD, CURVES_CH2, &actual_speed_int, 1); /*给通道2发送实际的电机【速度】值*/
+          //	}     
+               TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
           }
-          else if(PWM1<0)
-          {
-               PWM1 = -PWM1;
-               MotorControl(2,PWM1 ,PWM1);
-          }
-          else if(PWM1 == 0)
-          {
-               MotorControl(3,0,0);
-          }
           
-static int i=0;          
-#if (PID_ASSISTANT_EN)
-	i++;
-	if(i==12)
-	{
-		i=0;
-		//set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderDelta, 1); /*给通道1发送实际的电机【速度】值*/
-		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNow, 1); /*给通道1发送实际的电机【位置】值*/
-	}
-#else
-	i++;
-	if(i==100)
-	{
-		i=0;
-		printf("sum:%d set_pwm:%d\r\n",sum,res_pwm);
-		
-	}
-#endif
-          
-		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-	}
 }
+
 int pwm_val_protect(int pwm_input)
 {
 	int pwm_output = 0;
