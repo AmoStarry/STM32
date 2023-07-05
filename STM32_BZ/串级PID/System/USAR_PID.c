@@ -24,9 +24,11 @@ void set_p_i_d(PID *pid, float p, float i, float d)
   *	@note 	无
   * @retval 无
   */
+
 void set_pid_target(PID *pid, float temp_val)
-{  
-	pid->target_val = temp_val;    // 设置当前的目标值
+{
+     float encoderNum = (temp_val*TOTAL_RESOLUTION)/zhouchang;     
+	pid->target_val =encoderNum ;    // 设置当前的目标值
 }
 
 

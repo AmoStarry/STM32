@@ -128,7 +128,7 @@ float speed_pid_realize(PID *pid, float actual_val)
 void PID_Init()
 {
 	/* 位置相关初始化参数 */
-	pid_location.target_val = TOTAL_RESOLUTION*10;				
+	pid_location.target_val = 100.0;				
 	pid_location.output_val = 0.0;
 	pid_location.err = 0.0;
 	pid_location.err_last = 0.0;
