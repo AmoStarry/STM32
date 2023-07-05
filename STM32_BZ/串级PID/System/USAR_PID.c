@@ -45,7 +45,7 @@ float get_pid_target(PID *pid)
 
 //目标速度值限制
 //#define TARGET_SPEED_MAX   60 // 目标速度的最大值 r/m
-static float TARGET_SPEED_MAX = 100;
+static float TARGET_SPEED_MAX = 130;
 void speed_val_protect(float *speed_val)
 {
 	/*目标速度上限处理*/
