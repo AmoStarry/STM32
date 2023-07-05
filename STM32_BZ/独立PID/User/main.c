@@ -12,7 +12,7 @@
 
 #define ENCODER_RESOLUTION 11    /*编码器一圈的物理脉冲数*/
 #define ENCODER_MULTIPLE 4       /*编码器倍频，通过定时器的编码器模式设置*/
-#define MOTOR_REDUCTION_RATIO 34 /*电机的减速比*/
+#define MOTOR_REDUCTION_RATIO 46 /*电机的减速比*/
 /*电机转一圈总的脉冲数(定时器能读到的脉冲数) = 编码器物理脉冲数*编码器倍频*电机减速比 */
 /* 11*4*34= 1496*/
 #define TOTAL_RESOLUTION ( ENCODER_RESOLUTION*ENCODER_MULTIPLE*MOTOR_REDUCTION_RATIO ) 
@@ -84,10 +84,15 @@ void TIM2_IRQHandler(void)
 	{
           encoderNow = Encoder_Get();             //10us的CNT计数，10us清零一次
           encoderNum += encoderNow;                /*所有计数脉冲的累加的累计值*/
-          //Speed = (float)machou / TOTAL_RESOLUTION * 10 * 60;
-          pwm = PID_realize(encoderNum);
-          PWM1 = pwm_val_protect((int)pwm);
+          actual_speed = (float)encoderNow*6000 / TOTAL_RESOLUTION ;
           
+          Speed =(int)actual_speed;
+          printf("speed =%d\n\r",encoderNow);
+          
+          pwm = PID_realize(actual_speed);
+        //  printf("PID =%d\n\r",pwm);
+          PWM1 = pwm_val_protect((int)pwm);
+        //  printf("PWM = %d\n\r",PWM1);
           if(PWM1>0)
           {
             PWM1 =PWM1;
@@ -109,7 +114,7 @@ static int i=0;
 	if(i==12)
 	{
 		i=0;
-		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNum, 1); /*给通道1发送实际的电机【速度】值*/
+		set_computer_value(SEND_FACT_CMD, CURVES_CH1, &Speed, 1); /*给通道1发送实际的电机【速度】值*/
 		//set_computer_value(SEND_FACT_CMD, CURVES_CH1, &encoderNow, 1); /*给通道1发送实际的电机【位置】值*/
 	}
 #else

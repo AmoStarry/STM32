@@ -10,19 +10,47 @@
  /*定义一个PID结构体型的全局变量*/
 PID pid;
 
+
+#define SPE_DEAD_ZONE 5.0f /*速度环死区*/
+#define SPE_INTEGRAL_START_ERR 100 /*积分分离时对应的误差范围*/
+#define SPE_INTEGRAL_MAX_VAL 260   /*积分范围限定，防止积分饱和*/
 float PID_realize(float actual_val)
 {
-     
 	/*计算目标值与实际值的误差*/
 	pid.err = pid.target_val - actual_val;
-	
-	/*积分项*/
-	pid.integral += pid.err;
 
+	/* 设定闭环死区 */
+	if( (pid.err>-SPE_DEAD_ZONE) && (pid.err<SPE_DEAD_ZONE ) )
+	{
+		pid.err = 0;
+		pid.integral = 0;
+		pid.err_last = 0;
+	}
+
+#if 0
+	/*积分项*/
+	pid->integral += pid->err;
+#else	
+	/*积分项，积分分离，偏差较大时去掉积分作用*/
+	if(pid.err > -SPE_INTEGRAL_START_ERR && pid.err < SPE_INTEGRAL_START_ERR)
+	{
+		pid.integral += pid.err;  
+        /*积分范围限定，防止积分饱和*/
+		if(pid.integral > SPE_INTEGRAL_MAX_VAL)
+		{
+			pid.integral = SPE_INTEGRAL_MAX_VAL;
+		}
+		else if(pid.integral < -SPE_INTEGRAL_MAX_VAL)
+		{
+			pid.integral = -SPE_INTEGRAL_MAX_VAL;
+		}
+	}	
+#endif
+	
 	/*PID算法实现*/
-	pid.output_val = pid.Kp * pid.err + 
-				     pid.Ki * pid.integral + 
-				     pid.Kd * (pid.err - pid.err_last);
+	pid.output_val = pid.Kp * pid.err +
+	                  pid.Ki * pid.integral +
+	                  pid.Kd *(pid.err - pid.err_last);
 
 	/*误差传递*/
 	pid.err_last = pid.err;

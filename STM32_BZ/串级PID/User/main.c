@@ -151,7 +151,7 @@ void TIM2_IRQHandler(void)
                i++; 
                if(i%12 == 5)
                {
-                    set_computer_value(SEND_FACT_CMD, CURVES_CH2, &actual_speed, 1);   /*给通道1发送实际的电机【位置】值*/
+                    set_computer_value(SEND_FACT_CMD, CURVES_CH1, &actual_speed, 1);   /*给通道1发送实际的电机【位置】值*/
                }
           //	else if(i%12 == 10)
           //	{
