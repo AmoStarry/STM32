@@ -10,7 +10,9 @@
 /* 11*4*34= 1496*/
 #define TOTAL_RESOLUTION ( ENCODER_RESOLUTION*ENCODER_MULTIPLE*MOTOR_REDUCTION_RATIO ) 
 
-
+#define t 3.14
+#define r 3.3
+#define zhouchang  (2*t*r)
 typedef struct
 {
 	float target_val;   //Ä¿±êÖµ

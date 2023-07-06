@@ -149,22 +149,5 @@ void PID_Init()
 	pid_speed.Ki = 2.0;
 	pid_speed.Kd = 100.0;
 
-#if defined(PID_ASSISTANT_EN)
-	{
-		float pid_temp[3] = {0};
-		
-		/*给通道1发送位置PID值*/
-		pid_temp[0] = pid_location.Kp;
-		pid_temp[1] = pid_location.Ki;
-		pid_temp[2] = pid_location.Kd;
-		set_computer_value(SEND_P_I_D_CMD, CURVES_CH1, pid_temp, 3);     
-		
-		/*给通道2发送速度PID值*/
-		pid_temp[0] = pid_speed.Kp;
-		pid_temp[1] = pid_speed.Ki;
-		pid_temp[2] = pid_speed.Kd;
-		set_computer_value(SEND_P_I_D_CMD, CURVES_CH2, pid_temp, 3);  
-	}	
-#endif
 }
 

@@ -2,22 +2,14 @@
   ******************************************************************************
   * @file    protocol.c
   * @version V1.0
-  * @date    2020-xx-xx
+  * @date    2023-07-06
   * @brief   野火PID调试助手通讯协议解析
   ******************************************************************************
-  * @attention
-  *
-  * 实验平台:野火 F407 开发板 
-  * 论坛    :http://www.firebbs.cn
-  * 淘宝    :https://fire-stm32.taobao.com
-  *
-  ******************************************************************************
-  */ 
-
+*/
 #include "protocol.h"
 #include <string.h>
 #include "motor.h"
-#include "USAR_PID.h"
+#include "PID.h"
 #include "Timer.h"
 
 
@@ -43,7 +35,7 @@ static uint8_t recv_buf[PROT_FRAME_LEN_RECV];
  * @param   void
  * @return  初始化结果.
  */
-int32_t protocol_init(void)
+int32_t protocol_RX_init(void)
 {
 	/*全局变量parser清空*/
     memset(&parser, 0, sizeof(struct prot_frame_parser_t));
@@ -54,6 +46,78 @@ int32_t protocol_init(void)
     return 0;
 }
 
+/******************************************protocol与PID关联的部分*******************************************/
+
+/**
+  * @brief  设置比例、积分、微分系数
+  * @param  p：比例系数 P
+  * @param  i：积分系数 i
+  * @param  d：微分系数 d
+  *	@note 	无
+  * @retval 无
+  */
+void set_p_i_d(PID *pid, float p, float i, float d)
+{
+	pid->Kp = p;    // 设置比例系数 P
+	pid->Ki = i;    // 设置积分系数 I
+	pid->Kd = d;    // 设置微分系数 D
+}
+
+
+/**
+  * @brief  设置位置距离目标值
+  * @param  val目标值
+  *	@note 	无
+  * @retval 无
+  */
+
+void set_pid_target(PID *pid, float temp_val)
+{
+     float encoderNum = (temp_val*TOTAL_RESOLUTION)/zhouchang;     
+	pid->target_val =encoderNum ;    // 设置位置的目标值
+}
+
+
+
+/**
+  * @brief  获取位置目标值
+  * @param  无
+  *	@note 	无
+  * @retval 目标值
+  */
+float get_pid_target(PID *pid)
+{
+  return pid->target_val;    // 获取位置的目标值
+}
+
+
+//目标速度值限制
+//#define TARGET_SPEED_MAX   60 // 目标速度的最大值 r/m
+static float TARGET_SPEED_MAX = 130;
+void speed_val_protect(float *speed_val)
+{
+	/*目标速度上限处理*/
+	if (*speed_val > TARGET_SPEED_MAX)
+	{
+		*speed_val = TARGET_SPEED_MAX;
+	}
+	else if (*speed_val < -TARGET_SPEED_MAX)
+	{
+		*speed_val = -TARGET_SPEED_MAX;
+	}	
+}
+
+/*上位机目标值获取与设置*/
+void SetTargetMaxSpeed(int speed)
+{
+	TARGET_SPEED_MAX = (float)speed;
+}
+int GetTargetMaxSpeed(void)
+{
+	return (int)TARGET_SPEED_MAX;
+}
+
+/******************************************protocol与PID关联的部分*******************************************/
 
 /**
   * @brief 计算校验和
@@ -450,4 +514,44 @@ void set_computer_value(uint8_t cmd, uint8_t ch, void *data, uint8_t num)
 	usart1_send((uint8_t *)&set_packet, sizeof(set_packet));    // 发送数据头
 	usart1_send((uint8_t *)data, num);                          // 发送参数
 	usart1_send((uint8_t *)&sum, sizeof(sum));                  // 发送校验和
+}
+
+
+int32_t protocol_TX_init(void)
+{     
+#if defined(PID_ASSISTANT_EN)
+	{
+		float pid_temp[3] = {0};
+		
+		/*给通道1发送位置PID值*/
+		pid_temp[0] = pid_location.Kp;
+		pid_temp[1] = pid_location.Ki;
+		pid_temp[2] = pid_location.Kd;
+		set_computer_value(SEND_P_I_D_CMD, CURVES_CH1, pid_temp, 3);     
+		
+		/*给通道2发送速度PID值*/
+		pid_temp[0] = pid_speed.Kp;
+		pid_temp[1] = pid_speed.Ki;
+		pid_temp[2] = pid_speed.Kd;
+		set_computer_value(SEND_P_I_D_CMD, CURVES_CH2, pid_temp, 3);  
+	}	
+#endif
+     
+int32_t target = 0;   
+#if defined(PID_ASSISTANT_EN)
+	{    /*初始化时，上发stop，同步上位机的启动按钮状态*/
+          set_computer_value(SEND_STOP_CMD, CURVES_CH1, NULL, 0);  
+
+          /*获取默认的目标值*/
+          target = (int32_t)get_pid_target(&pid_location);
+          /*给通道1发送目标值*/
+          set_computer_value(SEND_TARGET_CMD, CURVES_CH1, &target, 1);
+          
+          /*获取默认的目标值*/
+          target = GetTargetMaxSpeed();
+          /*给通道2发送目标值*/
+          set_computer_value(SEND_TARGET_CMD, CURVES_CH2, &target, 1);
+     }
+#endif
+     return 0;
 }

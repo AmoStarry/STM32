@@ -8,7 +8,7 @@
 #include "PWM.h"
 #include "PID.h"
 #include "protocol.h"
-#include "USAR_PID.h"
+
 
 /*定义位置PID与速度PID结构体型的全局变量*/
 PID pid_location;
@@ -41,42 +41,30 @@ int pwm_val_protect(int pwm_input);
 int32_t target_speed = 0;
 int main(void)
 {
-     int32_t target = 0;
+
      NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置系统中断优先级分组2
 	OLED_Init();
      Motor_Init();
      PWM_Init();
 	Timer_Init();
 	Encoder_Init();
-     protocol_init();
+     protocol_RX_init();
      USART1_Init(115200);
      PID_Init();
+     protocol_TX_init();
      
-#if defined(PID_ASSISTANT_EN)
-	/*初始化时，上发stop，同步上位机的启动按钮状态*/
-	set_computer_value(SEND_STOP_CMD, CURVES_CH1, NULL, 0);  
-
-	/*获取默认的目标值*/
-	target = (int32_t)get_pid_target(&pid_location);
-	/*给通道1发送目标值*/
-	set_computer_value(SEND_TARGET_CMD, CURVES_CH1, &target, 1);
 	
-	/*获取默认的目标值*/
-	target = GetTargetMaxSpeed();
-	/*给通道2发送目标值*/
-	set_computer_value(SEND_TARGET_CMD, CURVES_CH2, &target, 1);
-#endif	
 	
 	OLED_ShowString(1, 1, "Speed:");
-//	printf("666\n\r");
+     //	printf("666\n\r");
 	while (1)
 	{
 
          receiving_process();
           
 
-//          printf("PWM = %d\n\r",PWM1);
-//          printf("bianma = %d\n\r",encoderNow);
+      //          printf("PWM = %d\n\r",PWM1);
+     //          printf("bianma = %d\n\r",encoderNow);
 		//OLED_ShowSignedNum(1, 7, Speed, 5);
 	}
 }
@@ -87,19 +75,15 @@ void TIM2_IRQHandler(void)
 {
 
      int temp=0;
-
      static int i=0;
      
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
 	{
-          encoderNow = Encoder_Get();             //10ms的CNT计数，10us清零一次
+          encoderNow = Encoder_Get();              //10ms的CNT计数，10us清零一次
           encoderNum += encoderNow;                /*所有计数脉冲的累加的累计值*/
-          //+ EncoderOverflowCnt*ENCODER_TIM_PERIOD;/*获取当前的累计值*/
-          //encoderDelta = encoderNow - encoderLast; /*得到变化值*/
-          //printf("bianma = %d\n\r",encoderNum);
-           actual_speed = (float)encoderNow*6000 / TOTAL_RESOLUTION ;
-           printf("actual_speed = %.3f\n\r",actual_speed);
-           Distance = encoderNum/(TOTAL_RESOLUTION*zhouchang);
+          actual_speed = (float)encoderNow*6000 / TOTAL_RESOLUTION ; //实际速度 转每分
+          printf("actual_speed = %.f\n\r",actual_speed);
+          Distance = encoderNum/(TOTAL_RESOLUTION*zhouchang);       //实际位置单位厘米
 	
           /*【2】位置PID运算，得到PWM控制值*/
           if ((location_timer++ % 2) == 0)
@@ -107,10 +91,10 @@ void TIM2_IRQHandler(void)
                float control_val = 0;   /*当前控制值*/
                
                /*位置PID计算*/
-               control_val = location_pid_realize(&pid_location, encoderNum);  
+               control_val = location_pid_realize(&pid_location, encoderNum);   //得到速度环的速度目标值
                
-             /*目标速度值限制*/
-     		speed_val_protect(&control_val);
+               /*目标速度值限制*/
+     		speed_val_protect(&control_val);   //开跑以后会以限制的最大速度开跑，想改变速度可以在这里
                //printf("Speed = %f\n\r",control_val);
      		/*设定速度PID的目标值*/
      		set_pid_target(&pid_speed, control_val);    
@@ -124,9 +108,8 @@ void TIM2_IRQHandler(void)
 #endif
      	   /*【3】速度PID运算，得到PWM控制值*/
      	    actual_speed_int = actual_speed;
-
-     	    PWM1 = pwm_val_protect((int)speed_pid_realize(&pid_speed, actual_speed));
-              //PWM1 = pwm_val_protect((int)control_val);
+     	    PWM1 = pwm_val_protect((int)speed_pid_realize(&pid_speed, actual_speed)); //速度环控制输入是实际速度，得到PWM控制量 
+              PWM1 = pwm_val_protect((int)control_val);
           /*【4】PWM控制电机*/
                if(PWM1>0)
                {

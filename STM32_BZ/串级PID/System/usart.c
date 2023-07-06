@@ -1,12 +1,9 @@
+#include "stm32f10x.h"                  // Device header
 #include "usart.h"
 #include "protocol.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-u16 r;
-uint8_t USART_TxPacket[4];
-uint8_t USART_RxPacket[4];
 
 uint8_t Recv1[128]={0};//串口接收缓存
 u8 rx_cnt=0;//接收数据个数计数变量

@@ -5,6 +5,7 @@
 /* Includes                                                                  */
 /*****************************************************************************/
 #include "usart.h"
+#include "PID.h"
 
 #ifdef _cplusplus
 extern "C" {
@@ -106,7 +107,7 @@ void protocol_data_recv(uint8_t *data, uint16_t data_len);
  * @param   void
  * @return  初始化结果.
  */
-int32_t protocol_init(void);
+int32_t protocol_RX_init(void);
 
 /**
  * @brief   接收的数据处理
@@ -124,6 +125,19 @@ int8_t receiving_process(void);
   * @retval 无
   */
 void set_computer_value(uint8_t cmd, uint8_t ch, void *data, uint8_t num);
+
+/******************************************protocol与PID关联的部分*******************************************/
+void set_p_i_d(PID *pid, float p, float i, float d); //设置比例、积分、微分系数
+void set_pid_target(PID *pid, float temp_val);       //设置位置距离目标值
+float get_pid_target(PID *pid);                      //获取位置的目标值
+void speed_val_protect(float *speed_val);            //目标速度值限制
+void SetTargetMaxSpeed(int speed);                   //设置速度目标值
+int GetTargetMaxSpeed(void);                         //获取速度最大值作为目标值
+/******************************************protocol与PID关联的部分*******************************************/
+
+extern PID pid_location;
+extern PID pid_speed;
+int32_t protocol_TX_init(void);
 
 #ifdef _cplusplus
 }
