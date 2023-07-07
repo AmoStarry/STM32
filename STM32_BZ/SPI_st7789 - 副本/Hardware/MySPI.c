@@ -105,7 +105,7 @@ void initlcd(){
 	GPIOB->CRH|=0X00003000;
 	GPIOB->ODR|=1<11;     //PC11,12 ???
   
-  SPI1_Init();
+     SPI1_Init();
 	SPI1_SetSpeed(SPI_BaudRatePrescaler_2);	
 	//ÅäÖÃdma
 	MYDMA_Config(DMA1_Channel3,(u32)&SPI1->DR,(u32)SendBuff,480);
