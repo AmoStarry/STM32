@@ -4,19 +4,15 @@
 #include "Delay.h" 
 #include "LED.h"
 #include "APP.h"
+#include "stm32f10x_it.h"
 int main()
 {	
+     SysTick_Init();
+     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
      LED_Init();
      
 	while(1)
-	{
-          LED1_ON();
-          LED2_ON();
-          Delay_ms(100);
-          LED1_OFF();
-          LED2_OFF();
-          Delay_ms(100);
-          
-        //APP_turn();  
+	{      
+        APP_turn();  
 	}
 }

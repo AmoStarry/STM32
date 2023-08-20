@@ -46,3 +46,7 @@ STM32_BZ/串级PID/Project.uvoptx
 STM32_BZ/串级PID/Project.uvprojx
 STM32_BZ/USART_文本数据包/project.uvguix.ETO
 STM32_BZ/串级PID/Project.uvoptx
+*.map
+*.iex
+*.uvprojx
+*.uvoptx
