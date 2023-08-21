@@ -779,6 +779,11 @@
               <FileType>1</FileType>
               <FilePath>.\Hardware\OLED.c</FilePath>
             </File>
+            <File>
+              <FileName>USART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\USART.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

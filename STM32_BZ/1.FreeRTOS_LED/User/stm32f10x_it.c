@@ -23,9 +23,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
-#include "FreeRTOS.h"
-#include "task.h"
-#include "LED.h"
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -108,9 +105,9 @@ void UsageFault_Handler(void)
   * @param  None
   * @retval None
   */
-//void SVC_Handler(void)
-//{
-//}
+void SVC_Handler(void)
+{
+}
 
 /**
   * @brief  This function handles Debug Monitor exception.
@@ -126,48 +123,18 @@ void DebugMon_Handler(void)
   * @param  None
   * @retval None
   */
-
-extern void xPortSysTickHandler(void);
-//systick中断服务函数
+void PendSV_Handler(void)
+{
+}
 
 /**
   * @brief  This function handles SysTick Handler.
   * @param  None
   * @retval None
   */
-
-void SysTick_Init(void) {
-    // 设置时钟源为HCLK/8
-    SysTick->CTRL |= SysTick_CTRL_CLKSOURCE_Msk;
-    
-    // 设置定时器计数器的初始值
-    SysTick->LOAD = (SystemCoreClock / 8000) - 1; // 1ms
-    
-    // 使能SysTick定时器中断
-    SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
-    
-    // 启动SysTick定时器
-    SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
-}
-
 void SysTick_Handler(void)
-{	
-    LED2_ON();
-    vTaskDelay(500);
-    #if (INCLUDE_xTaskGetSchedulerState  == 1 )
-      if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
-      {
-    #endif  /* INCLUDE_xTaskGetSchedulerState */  
-         xPortSysTickHandler();
-    #if (INCLUDE_xTaskGetSchedulerState  == 1 )
-      }
-    #endif  /* INCLUDE_xTaskGetSchedulerState */
+{
 }
-
-
-//void PendSV_Handler(void)
-//{
-//}
 
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */

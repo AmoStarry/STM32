@@ -69,9 +69,9 @@ void start_task( void * pvParameters )
     while(1)
     {
         //printf("task1正在运行！！！\r\n");
-        LED1_ON();
+        //LED1_ON();
         vTaskDelay(500);
-        LED1_OFF();
+        LED2_OFF();
         vTaskDelay(500);
     }
 //    taskENTER_CRITICAL();               /* 进入临界区 */
