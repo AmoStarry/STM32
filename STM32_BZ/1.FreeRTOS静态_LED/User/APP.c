@@ -43,7 +43,7 @@ void vApplicationGetTimerTaskMemory(StaticTask_t **ppxTimerTaskTCBBuffer,
   * @retval 无
   */
 #define START_TASK_PRIO         1
-#define START_TASK_STACK_SIZE   128
+#define START_TASK_STACK_SIZE   512
 TaskHandle_t    start_task_handler;
 StackType_t     start_task_stack[START_TASK_STACK_SIZE];
 StaticTask_t    start_task_tcb;
@@ -57,7 +57,7 @@ void start_task( void * pvParameters );
   * @retval 无
   */
 #define LED1_PRIO        2
-#define TASK1_STACK_SIZE  128
+#define TASK1_STACK_SIZE  50
 TaskHandle_t      LED1_handler;
 StackType_t       LED1_stack[TASK1_STACK_SIZE];
 StaticTask_t      LED1_tcb;
@@ -70,8 +70,8 @@ void LED1( void *pvParameters);
   * @param  任务句柄
   * @retval 无
   */
-#define LED2_PRIO        3
-#define TASK2_STACK_SIZE  128
+#define LED2_PRIO        2
+#define TASK2_STACK_SIZE  50
 TaskHandle_t      LED2_handler;
 StackType_t       LED2_stack[TASK1_STACK_SIZE];
 StaticTask_t      LED2_tcb;
@@ -84,8 +84,8 @@ void LED2( void *pvParameters);
   * @param  任务句柄
   * @retval 无
   */
-#define KEY_PRIO        4
-#define TASK3_STACK_SIZE  128
+#define KEY_PRIO        2
+#define TASK3_STACK_SIZE  50
 TaskHandle_t      KEY_handler;
 StackType_t       KEY_stack[TASK1_STACK_SIZE];
 StaticTask_t      KEY_tcb;
@@ -144,11 +144,12 @@ void LED1( void * pvParameters )
 {
     while(1)
     {
-        //printf("LED1正在运行！！！\r\n");
-        LED1_ON();
+        printf("LED2正在运行！！！\r\n");
+        LED2_ON();            //PA1
+        vTaskDelay(500);     
+        LED2_OFF();
         vTaskDelay(500);
-        LED1_OFF();
-        vTaskDelay(500);
+
     }
 }
 
@@ -157,10 +158,10 @@ void LED2( void * pvParameters )
 {
     while(1)
     {
-        //printf("LED2正在运行！！！\r\n");
-        LED2_ON();
+        printf("LED1正在运行！！！\r\n");
+        LED1_ON();            //PA8
         vTaskDelay(500);
-        LED2_OFF();
+        LED1_OFF();
         vTaskDelay(500);
     }
 }
@@ -168,18 +169,19 @@ void LED2( void * pvParameters )
 /* 任务三 */
 void KEY( void * pvParameters )
 {
-    //uint8_t KeyNum = 0;
-    //printf("KEY正在运行！！！\r\n");
+    uint8_t KeyNum = 0;
+    printf("KEY正在运行！！！\r\n");
     while(1)
-    {
-//        KeyNum = Key_GetNum();
-//        if(KeyNum == 1)
-//        {
-//           printf("删除LED1任务\r\n");
-//           vTaskDelete(LED1_handler);
-//           LED1_handler = NULL;   
-//        }    
-          vTaskDelay(1000);
+    { 
+        KeyNum = Key_GetNum();
+        if(KeyNum == 1)
+        {
+           printf("删除LED1任务\r\n");
+           vTaskDelete(LED1_handler);
+           LED1_handler = NULL;   
+        }
+        else vTaskDelay(500);
+          
      }
 }
 

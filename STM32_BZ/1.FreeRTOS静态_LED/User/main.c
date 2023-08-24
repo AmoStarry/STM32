@@ -11,8 +11,8 @@ int main()
      NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
      LED_Init();
      Delay_init();
-     //Key_Init();
-     //USART1_Init(9600);
+     Key_Init();
+     uart_init(9600);
 	while(1)
 	{
         APP_turn();  
