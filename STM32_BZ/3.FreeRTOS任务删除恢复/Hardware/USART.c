@@ -23,13 +23,7 @@ void _sys_exit(int x)
 { 
 	x = x; 
 } 
-//重定义fputc函数 
-int fputc(int ch, FILE *f)
-{      
-	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
-    USART1->DR = (u8) ch;      
-	return ch;
-}
+
 #endif 
 
  
@@ -43,7 +37,10 @@ u8 USART_RX_BUF[USART_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
 //bit14，	接收到0x0d
 //bit13~0，	接收到的有效字节数目
 u16 USART_RX_STA=0;       //接收状态标记	  
-  
+uint8_t Serial_TxPacket[4];				//FF 01 02 03 04 FE
+uint8_t Serial_RxPacket[4];
+uint8_t Serial_RxFlag;
+
 void uart_init(u32 bound)
 {
 	//GPIO端口设置
@@ -85,33 +82,55 @@ void uart_init(u32 bound)
 	USART_Cmd(USART1, ENABLE);                    //使能串口1 
 }
 
-void USART1_IRQHandler(void)                	//串口1中断服务程序
+void USART_SendBit(USART_TypeDef* USARTx,uint16_t Data)   
 {
-	u8 Res;
+	USART_SendData(USARTx, Data);
+	while (USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET);
+     
+}
+//重定义fputc函数 
+int fputc(int ch, FILE *f)
+{      
+	USART_SendBit(USART1,ch);
+	return ch;
+}
 
-	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
-		{
-		Res =USART_ReceiveData(USART1);	//读取接收到的数据
+void USART1_IRQHandler(void)
+{
+	static uint8_t RxState = 0;
+	static uint8_t pRxPacket = 0;
+	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
+	{
+		uint8_t RxData = USART_ReceiveData(USART1);
 		
-		if((USART_RX_STA&0x8000)==0)//接收未完成
+		if (RxState == 0)
+		{
+			if (RxData == 0xFF)
 			{
-			if(USART_RX_STA&0x4000)//接收到了0x0d
-				{
-				if(Res!=0x0a)USART_RX_STA=0;//接收错误,重新开始
-				else USART_RX_STA|=0x8000;	//接收完成了 
-				}
-			else //还没收到0X0D
-				{	
-				if(Res==0x0d)USART_RX_STA|=0x4000;
-				else
-					{
-					USART_RX_BUF[USART_RX_STA&0X3FFF]=Res ;
-					USART_RX_STA++;
-					if(USART_RX_STA>(USART_REC_LEN-1))USART_RX_STA=0;//接收数据错误,重新开始接收	  
-					}		 
-				}
-			}   		 
-     } 
+				RxState = 1;
+				pRxPacket = 0;
+			}
+		}
+		else if (RxState == 1)
+		{
+			Serial_RxPacket[pRxPacket] = RxData;
+			pRxPacket ++;
+			if (pRxPacket >= 4)
+			{
+				RxState = 2;
+			}
+		}
+		else if (RxState == 2)
+		{
+			if (RxData == 0xFE)
+			{
+				RxState = 0;
+				Serial_RxFlag = 1;
+			}
+		}
+		
+		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+	}
 } 
 #endif	
 

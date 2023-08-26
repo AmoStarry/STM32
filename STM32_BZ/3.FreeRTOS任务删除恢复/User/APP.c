@@ -1,6 +1,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "LED.h"
+#include "Key.h"
 
 /*-------------------FreeRTOS配置--------------------------------*/
 /**
@@ -96,53 +97,59 @@ void start_task( void * pvParameters )
      }
 }
 
-/* 任务一，实现LED1每500ms翻转一次 */
+/* 任务一，按键 */
 void task1( void * pvParameters )
 {
+    uint8_t key,Flag;
     while(1)
     {
-        printf("task1正在运行！！！\r\n");
-        LED1_ON();
-        vTaskDelay(500);
-        LED1_OFF();
-        vTaskDelay(500);
+          key = KEY_Scan(0); 
+          switch (key)
+          {
+               case KEY0_PRES:
+                    Flag =!Flag;
+                    if(Flag == 1)
+                    {
+                         vTaskSuspend(task2_handler);
+                         printf("挂起任务一");
+                    }
+                    if(Flag == 0)
+                    {
+                         vTaskResume(task2_handler);
+                         printf("恢复任务一");
+                    }
+                    break;
+               case KEY1_PRES:
+                    vTaskSuspend(task3_handler);
+                    printf("挂起任务二");
+                    break;
+          }
     }
 }
 
 /* 任务二，实现LED2每500ms翻转一次 */
 void task2( void * pvParameters )
 {
+     uint8_t task2_num =0;
     while(1)
     {
-        printf("task2正在运行！！！\r\n");
-        LED2_ON();
-        vTaskDelay(500);
-        LED2_OFF();
-        vTaskDelay(500);
+          task2_num ++;
+          printf("task2以运行:%d 次\r\n",task2_num);
+          LED1_Turn();
+          vTaskDelay(500);
     }
 }
 
 /* 任务三 */
 void task3( void * pvParameters )
 {
-//    uint8_t key = 0;
+    uint8_t task3_num = 0;
     while(1)
     {
           
-        vTaskDelay(500);
-         
-        printf("task3正在运行！！！\r\n");
-//        key = key_scan(0);
-//        if(key == KEY0_PRES)
-//        {
-//            if(task1_handler != NULL)
-//            {
-//                printf("删除task1任务\r\n");
-//                vTaskDelete(task1_handler);
-//                task1_handler = NULL;
-//            }
-
-//        }
-//        vTaskDelay(10);
+          task3_num ++;
+          printf("task3以运行:%d 次\r\n",task3_num);
+          LED2_Turn();
+          vTaskDelay(500);
     }
 }
