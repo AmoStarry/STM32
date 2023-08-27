@@ -100,28 +100,37 @@ void start_task( void * pvParameters )
 /* 任务一，按键 */
 void task1( void * pvParameters )
 {
-    uint8_t key,Flag;
+    uint8_t key,Flag1,Flag2;
     while(1)
     {
-          key = KEY_Scan(0); 
+          key = Key_Num(); 
           switch (key)
           {
                case KEY0_PRES:
-                    Flag =!Flag;
-                    if(Flag == 1)
+                    Flag1 =!Flag1;
+                    if(Flag1 == 1)
                     {
                          vTaskSuspend(task2_handler);
-                         printf("挂起任务一");
+                         printf("挂起任务二");
                     }
-                    if(Flag == 0)
+                    if(Flag1 == 0)
                     {
                          vTaskResume(task2_handler);
-                         printf("恢复任务一");
+                         printf("恢复任务二");
                     }
                     break;
                case KEY1_PRES:
-                    vTaskSuspend(task3_handler);
-                    printf("挂起任务二");
+                    Flag2 =!Flag2;
+                    if(Flag2 == 1)
+                    {
+                         vTaskSuspend(task3_handler);
+                         printf("挂起任务三");
+                    }
+                    if(Flag2 == 0)
+                    {
+                         vTaskResume(task3_handler);
+                         printf("恢复任务三");
+                    }
                     break;
           }
     }
@@ -134,7 +143,7 @@ void task2( void * pvParameters )
     while(1)
     {
           task2_num ++;
-          printf("task2以运行:%d 次\r\n",task2_num);
+          printf("task2已运行:%d 次\r\n",task2_num);
           LED1_Turn();
           vTaskDelay(500);
     }
@@ -148,7 +157,7 @@ void task3( void * pvParameters )
     {
           
           task3_num ++;
-          printf("task3以运行:%d 次\r\n",task3_num);
+          printf("task3已运行:%d 次\r\n",task3_num);
           LED2_Turn();
           vTaskDelay(500);
     }
