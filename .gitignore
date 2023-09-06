@@ -52,3 +52,11 @@ STM32_BZ/串级PID/Project.uvoptx
 *.uvoptx
 *.map
 *.lst
+*.map
+*.lst
+*.crf
+*.d
+*.o
+*.d
+*.o
+*.htm
