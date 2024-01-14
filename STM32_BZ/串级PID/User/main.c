@@ -8,6 +8,7 @@
 #include "PWM.h"
 #include "PID.h"
 #include "protocol.h"
+#include "Key.h"
 
 
 /*定义位置PID与速度PID结构体型的全局变量*/
@@ -51,6 +52,7 @@ int main(void)
      protocol_RX_init();
      USART1_Init(115200);
      PID_Init();
+     Key_Init();
      protocol_TX_init();
      
 	
@@ -59,7 +61,6 @@ int main(void)
      //	printf("666\n\r");
 	while (1)
 	{
-
          receiving_process();
           
 
